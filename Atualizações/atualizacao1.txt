@@ -1,0 +1,8 @@
+Atualização 11/09
+
+A descrição do projeto, assim como os objetivos, relevância e questão financeira foram incluídos no README
+
+Até a próxima atualização, será discutido em equipe:
+ - Pesquisas e artigos para levantar tecnologias que serão utilizadas no desenvolvimento do software
+ - Primeiras ideias de requisitos funcionais que o software terá
+ - Como será feito o levantamento de requisitos de usuário e quais técnicas serão empregadas.
