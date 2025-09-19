@@ -1,0 +1,5 @@
+Referências de pesquisas utilizadas para desenvolver o roteiro:
+
+https://www.nngroup.com/articles/user-interviews/
+
+https://www.openxcell.com/blog/user-interviews-for-app-development/
