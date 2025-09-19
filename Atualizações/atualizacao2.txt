@@ -1,0 +1,5 @@
+Atualização 19/09
+
+> O Github foi atualizado com uma pasta V1 onde vai ser entregue parte do trabalho
+> O roteiro da entrevista que foi utilizado pelos membros foi adicionado
+> As pastas que vão incluir o desenvolvimento de cada um (ainda terminando) foram adicionadas
