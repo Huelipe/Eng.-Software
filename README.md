@@ -13,6 +13,6 @@ Problema: pesquisas indicam que muitos brasileiros possuem dificuldades para adm
 
 Objetivos: criar um aplicativo que pode ser utilizado para ajudar a controlar finanças pessoais. Gráficos e feedbacks seriam implementados para auxiliar na administração de dinheiro.
 
-Relevância: o aplicativo poderia ser utilizado por muitas pessoas para diversas funções. A exemplo, um vendedor poderia utilizar para controlar o balanço de suas vendas Um outro exemplo seria uma pessoa que está tentando economizar, e simplesmente quer impor limites e controlar seus gastos.
+Relevância: artigos e pesquisas indicam que adultos, principalmente mais jovens, têm dificuldade para gerenciar finanças. Um aplicativo poderia ser muito útil para auxiliar.
 
 Financeiramente: a princípio, o software é financeiramente viável, considerando o baixo custo por trás de sua produção e pesquisas, podendo ter muito retorno.
