@@ -31,14 +31,14 @@ Financeiramente: a princípio, o software é financeiramente viável, consideran
 
 - V1 (pasta com primeira versão do documento)
   - Felipe (pasta)
-    - Design
-    - Referências para levantamento de requisitos de usuário
+    - Design (pasta)
+    - Referências para levantamento de requisitos de usuário (pasta)
     - História de usuário
     - Diagrama de sequência
     - Entrevista
   - Giovanna (pasta)
     - Design
-    - Referências para levantamento de requisitos de usuário
+    - Referências para levantamento de requisitos de usuário 
     - História de usuário
     - Diagrama de sequência
     - Entrevista
