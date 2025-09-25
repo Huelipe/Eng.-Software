@@ -17,56 +17,48 @@ Relevância: artigos e pesquisas indicam que adultos, principalmente mais jovens
 
 Financeiramente: a princípio, o software é financeiramente viável, considerando o baixo custo por trás de sua produção e pesquisas, podendo ter muito retorno.
 
-Organização do github:
+## Estrutura do Projeto
 
-|
-|
-|- Atualizações (pasta com atualizações amplas e decisões feitas pela equipe)
-|   \_ atualizacao1.txt
-|    \_ atualizacao2.txt
-|     \_ atualizacao3.txt
-|
-|- Levantamento de requisitos (pasta com artigos e pesquisas sobre levantamento de requisitos)
-|  \_ pdf1
-|   \_ pdf2
-|    \_ pdf3
-|
-|- V1 (pasta com primeira versão do documento)
-|  \_ Felipe (pasta)
-|     \_ Design 
-|      \_ Referencias para levantamento de requisitos de usuario
-|       \_ Historia de usuário
-|        \_ Diagrama de sequencia
-|         \_ Entrevista
-|  \_ Giovanna (pasta)
-|     \_ Design 
-|      \_ Referencias para levantamento de requisitos de usuario
-|       \_ Historia de usuário
-|        \_ Diagrama de sequencia
-|         \_ Entrevista
-|  \_ Pedro (pasta)
-|     \_ Design 
-|      \_ Referencias para levantamento de requisitos de usuario
-|       \_ Historia de usuário
-|        \_ Diagrama de sequencia
-|         \_ Entrevista
-|
-|  \_ Plano de gerenciamento de requisitos (documento formalizado em formato de PDF)
-|
-|  \_ Roteiro para entrevista (documento em formato de PDF com o roteiro de entrevista semi-estruturada utilizada por cada um)
-|
-|
-|- V2 (pasta com a segunda versão do documento, revisando e juntando os protótipos)
-|  \_ Protótipo final (pasta com o design baseado na descrição do protótipo final)
-|     \_ Protótipo (documento em formato de PDF com imagens do protótipo e descrição)
-|      \_ Designs (pasta com as imagens do protótipo)
-|         \_ imagem1
-|          \_ imagem2
-|
-|  \_ Descrição protótipo (documento em formato de pdf com a descrição da versão 2, apontando e justificando o que mudou)
-|  
-|  \_ Diagrama de sequências (diagrama de sequências baseado na descrição do protótipo final)
-|
-|- Artigo sobre educação financeira em jovens adultos brasileiros (artigo que justifica a aplicação do aplicativo e o foco em jovens adultos)
-|
-|- README.md (documento com descrição do projeto e organização do GitHub
+- Atualizações (pasta com atualizações amplas e decisões feitas pela equipe)
+  - atualizacao1.txt
+  - atualizacao2.txt
+  - atualizacao3.txt
+
+- Levantamento de requisitos (pasta com artigos e pesquisas sobre levantamento de requisitos)
+  - pdf1
+  - pdf2
+  - pdf3
+
+- V1 (pasta com primeira versão do documento)
+  - Felipe (pasta)
+    - Design
+    - Referências para levantamento de requisitos de usuário
+    - História de usuário
+    - Diagrama de sequência
+    - Entrevista
+  - Giovanna (pasta)
+    - Design
+    - Referências para levantamento de requisitos de usuário
+    - História de usuário
+    - Diagrama de sequência
+    - Entrevista
+  - Pedro (pasta)
+    - Design
+    - Referências para levantamento de requisitos de usuário
+    - História de usuário
+    - Diagrama de sequência
+    - Entrevista
+  - Plano de gerenciamento de requisitos (PDF)
+  - Roteiro para entrevista (PDF)
+
+- V2 (pasta com a segunda versão do documento, revisando e juntando os protótipos)
+  - Protótipo final
+    - Protótipo (PDF com imagens e descrição)
+    - Designs
+      - imagem1
+      - imagem2
+  - Descrição do protótipo (PDF apontando mudanças e justificativas)
+  - Diagrama de sequências (baseado na descrição do protótipo final)
+
+- Artigo sobre educação financeira em jovens adultos brasileiros
+- README.md (documento com descrição do projeto e organização do GitHub)
