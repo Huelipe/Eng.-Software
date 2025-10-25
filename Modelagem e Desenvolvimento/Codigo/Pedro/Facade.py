@@ -37,8 +37,8 @@ class Movimentacao:
     descricao: str           # O que foi (ex: "Compra no mercado")
 
 
-# --- 2. OS SUBSISTEMAS (AS PARTES COMPLEXAS DA "COZINHA") ---
-# Estas classes são os "bastidores". O cliente (menu) NUNCA deve falar com elas.
+# --- 2. OS SUBSISTEMAS ---
+
 
 class ContaService:
     """
@@ -55,7 +55,7 @@ class ContaService:
     def _hash_password(self, password):
         """Método interno para embaralhar uma senha de forma segura (Hashing)."""
         # 'password.encode('utf-8')' transforma a string em bytes (padrão de "alfabeto")
-        # 'hashlib.sha256(...)' aplica o algoritmo de hash (o "liquidificador")
+        # 'hashlib.sha256(...)' aplica o algoritmo de hash 
         # '.hexdigest()' retorna o hash como uma string de texto
         return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
@@ -266,7 +266,7 @@ class MovimentacaoService:
                 historico_filtrado.append(mov)
         return historico_filtrado
 
-# --- 3. O FACADE (O "GARÇOM" / PONTO DE ENTRADA SIMPLES) ---
+# --- 3. FACADE  ---
 
 class FinanceFacade:
     """
@@ -284,7 +284,7 @@ class FinanceFacade:
         print(f"[Facade] Tentando criar conta para {username}...")
         novo_id = f"conta-{uuid.uuid4().hex[:6]}" # Gera um ID de sistema
         try:
-            # 1. DELEGA o trabalho sujo para o subsistema
+            # 1. DELEGA o trabalho para o subsistema
             conta = self._conta_service.criar_conta(
                 id_conta=novo_id, 
                 username=username,
@@ -370,14 +370,12 @@ class FinanceFacade:
         # Apenas delega
         return self._mov_service.get_historico_por_tipo(id_conta, 'despesa')
 
-# --- 4. O CLIENTE (O MENU INTERATIVO) ---
-# Esta é a "interface" do seu aplicativo.
-# Note como ele SÓ conversa com o 'app_financeiro' (o Facade).
-# Ele não faz ideia de como as senhas são salvas ou como o JSON funciona.
+# --- 4. MENU INTERATIVO ---
 
-print("--- BEM-VINDO AO SEU APP DE FINANÇAS (V7 - Com Totais) ---")
 
-# 1. Inicializa o Facade (o "Garçom")
+print("--- BEM-VINDO AO SEU APP DE FINANÇAS ---")
+
+# 1. Inicializa o Facade 
 app_financeiro = FinanceFacade()
 
 # 2. Loop de Autenticação (Login / Criação)
@@ -397,7 +395,6 @@ while minha_conta_logada is None: # Loop continua ENQUANTO o usuário não logar
         # 'getpass.getpass' pede a senha SEM MOSTRAR na tela
         senha_usuario = getpass.getpass("Senha: ") 
         
-        # O cliente SÓ CHAMA O FACADE!
         minha_conta_logada = app_financeiro.autenticar_usuario(username, senha_usuario)
         
         if minha_conta_logada is None:
@@ -411,7 +408,7 @@ while minha_conta_logada is None: # Loop continua ENQUANTO o usuário não logar
         senha_usuario = getpass.getpass("Digite sua nova senha: ")
         saldo_inicial_usuario = input("Digite seu saldo inicial (ex: 100.00): ")
         
-        # O cliente SÓ CHAMA O FACADE!
+        
         minha_conta_logada = app_financeiro.criar_nova_conta(
             username=username,
             nome_completo=nome_completo,
@@ -458,7 +455,7 @@ while True: # Loop infinito (só para quando o usuário escolhe "Sair")
         valor_mov = input(f"Digite o valor da {tipo_mov} (ex: 50.75): ")
         desc_mov = input(f"Digite a descrição da {tipo_mov}: ")
         
-        # O cliente SÓ CHAMA O FACADE!
+        
         app_financeiro.registrar_movimentacao(
             id_conta=id_da_minha_conta,
             tipo=tipo_mov,
