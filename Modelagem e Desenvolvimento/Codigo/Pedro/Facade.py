@@ -2,7 +2,7 @@
 
 # --- Importações de Bibliotecas Nativas ---
 from dataclasses import dataclass, field # Ferramenta para criar "structs" (classes de dados)
-from decimal import Decimal           # Para matemática de dinheiro (NUNCA use float!)
+from decimal import Decimal           # Para matemática de dinheiro 
 from datetime import datetime, date     # Para lidar com datas e horas
 import uuid                             # Para criar IDs únicos (ex: conta-34a2c1)
 import json                             # Para ler e escrever arquivos de texto no formato JSON
