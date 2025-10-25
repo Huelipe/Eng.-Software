@@ -279,25 +279,29 @@ class FinanceFacade:
         self._conta_service = ContaService()
         self._mov_service = MovimentacaoService()
 
-    def criar_nova_conta(self, username, nome_completo, saldo_inicial, senha):
-        """Método simples para o cliente criar uma conta."""
+    def criar_nova_conta(self, username, nome_completo, senha):
+        """
+        Método simples para o cliente criar uma conta.
+        Agora, todas as contas começam com saldo 0,00 automaticamente.
+        """
         print(f"[Facade] Tentando criar conta para {username}...")
-        novo_id = f"conta-{uuid.uuid4().hex[:6]}" # Gera um ID de sistema
+        novo_id = f"conta-{uuid.uuid4().hex[:6]}"  # Gera um ID de sistema
+
         try:
-            # 1. DELEGA o trabalho para o subsistema
+            # Cria a conta com saldo inicial fixo em 0,00
             conta = self._conta_service.criar_conta(
-                id_conta=novo_id, 
+                id_conta=novo_id,
                 username=username,
                 nome_completo=nome_completo,
-                saldo_inicial=saldo_inicial, 
+                saldo_inicial=0,  # saldo inicial automático
                 senha_plana=senha
             )
-            print(f"[Facade] Conta para {username} criada com ID {novo_id}.")
-            return conta # Retorna a conta em caso de sucesso
+            print(f"[Facade] Conta para {username} criada com ID {novo_id}. Saldo inicial: R$ 0,00.")
+            return conta
         except ValueError as e:
-            # 2. CAPTURA o erro (ex: username já existe) e trata
             print(f"[Facade] FALHA ao criar conta: {e}")
-            return None # Retorna 'None' em caso de falha
+            return None
+
         
     def autenticar_usuario(self, username, senha):
         """Método simples para o cliente fazer login."""
@@ -373,146 +377,121 @@ class FinanceFacade:
 # --- 4. MENU INTERATIVO ---
 
 
-print("--- BEM-VINDO AO SEU APP DE FINANÇAS ---")
+# --- 4. MENU INTERATIVO ---
 
-# 1. Inicializa o Facade 
-app_financeiro = FinanceFacade()
+if __name__ == "__main__":
+    print("--- BEM-VINDO AO SEU APP DE FINANÇAS ---")
 
-# 2. Loop de Autenticação (Login / Criação)
-minha_conta_logada = None # Começa deslogado
-while minha_conta_logada is None: # Loop continua ENQUANTO o usuário não logar
+    # 1. Inicializa o Facade 
+    app_financeiro = FinanceFacade()
+
+    # 2. Loop de Autenticação (Login / Criação)
+    minha_conta_logada = None # Começa deslogado
+    while minha_conta_logada is None: # Loop continua ENQUANTO o usuário não logar
+        print("\n" + "="*30)
+        print("--- LOGIN / CRIAÇÃO DE CONTA ---")
+        print("1. Fazer Login")
+        print("2. Criar Nova Conta")
+        print("3. Sair do Programa")
+        escolha_auth = input("Digite sua opção: ")
+        
+        if escolha_auth == '1':
+            # --- LOGIN ---
+            print("\n--- Fazer Login ---")
+            username = input("Nome de usuário: ")
+            senha_usuario = getpass.getpass("Senha: ") 
+            minha_conta_logada = app_financeiro.autenticar_usuario(username, senha_usuario)
+            if minha_conta_logada is None:
+                print("\n[ERRO] Nome de usuário ou senha incorretos.")
+                
+        elif escolha_auth == '2':
+            print("\n--- Criar Nova Conta ---")
+            username = input("Nome de usuário (para login, ex: pedro123): ")
+            nome_completo = input("Seu nome completo (ex: Pedro da Silva): ")
+            senha_usuario = getpass.getpass("Digite sua nova senha: ")
+
+            minha_conta_logada = app_financeiro.criar_nova_conta(
+                username=username,
+                nome_completo=nome_completo,
+                senha=senha_usuario
+            )
+
+            if minha_conta_logada:
+                print("✅ Conta criada com sucesso! Seu saldo inicial é R$ 0,00.")
+            else:
+                print("\n[ERRO] Não foi possível criar a conta (talvez o nome de usuário já exista?).")
+
+
+        elif escolha_auth == '3':
+            print("Saindo...")
+            quit()
+                
+        else:
+            print("Opção inválida.")
+
+    # --- SUCESSO NO LOGIN ---
     print("\n" + "="*30)
-    print("--- LOGIN / CRIAÇÃO DE CONTA ---")
-    print("1. Fazer Login")
-    print("2. Criar Nova Conta")
-    print("3. Sair do Programa")
-    escolha_auth = input("Digite sua opção: ")
-    
-    if escolha_auth == '1':
-        # --- LOGIN ---
-        print("\n--- Fazer Login ---")
-        username = input("Nome de usuário: ")
-        # 'getpass.getpass' pede a senha SEM MOSTRAR na tela
-        senha_usuario = getpass.getpass("Senha: ") 
-        
-        minha_conta_logada = app_financeiro.autenticar_usuario(username, senha_usuario)
-        
-        if minha_conta_logada is None:
-            print("\n[ERRO] Nome de usuário ou senha incorretos.")
-            
-    elif escolha_auth == '2':
-        # --- CRIAR CONTA ---
-        print("\n--- Criar Nova Conta ---")
-        username = input("Nome de usuário (para login, ex: pedro123): ")
-        nome_completo = input("Seu nome completo (ex: Pedro da Silva): ")
-        senha_usuario = getpass.getpass("Digite sua nova senha: ")
-        saldo_inicial_usuario = input("Digite seu saldo inicial (ex: 100.00): ")
-        
-        
-        minha_conta_logada = app_financeiro.criar_nova_conta(
-            username=username,
-            nome_completo=nome_completo,
-            saldo_inicial=saldo_inicial_usuario,
-            senha=senha_usuario
-        )
-        if minha_conta_logada is None:
-            # 'criar_nova_conta' retorna None se o username já existir
-            print("\n[ERRO] Não foi possível criar a conta (talvez o nome de usuário já exista?).")
-
-    elif escolha_auth == '3':
-        print("Saindo...")
-        quit() # Encerra o programa imediatamente
-            
-    else:
-        print("Opção inválida.")
-
-# --- SUCESSO NO LOGIN ---
-# Se o código chegou aqui, o loop 'while' terminou, o que significa que 'minha_conta_logada' não é mais 'None'.
-print("\n" + "="*30)
-print(f"Bem-vindo(a), {minha_conta_logada.nome_completo}!") # Cumprimenta pelo nome real
-print(f"(Login: {minha_conta_logada.username})")           # Mostra o username
-print("="*30)
-
-# Guarda o ID da conta logada para usar nas transações
-id_da_minha_conta = minha_conta_logada.id_conta
-
-# 3. Loop do Menu Principal
-while True: # Loop infinito (só para quando o usuário escolhe "Sair")
-    print("\n--- MENU PRINCIPAL ---")
-    print(f"Conta: {minha_conta_logada.nome_completo} | Saldo atual: R$ {app_financeiro.get_saldo(id_da_minha_conta)}")
-    print("1. Adicionar Receita")
-    print("2. Adicionar Despesa")
-    print("3. Ver Histórico de Receitas")
-    print("4. Ver Histórico de Despesas")
-    print("5. Sair (Logout)")
+    print(f"Bem-vindo(a), {minha_conta_logada.nome_completo}!")
+    print(f"(Login: {minha_conta_logada.username})")
     print("="*30)
-    
-    escolha = input("Digite o número da opção: ")
 
-    if escolha == '1' or escolha == '2':
-        # --- Adicionar Movimentação ---
-        tipo_mov = "receita" if escolha == '1' else "despesa"
-        valor_mov = input(f"Digite o valor da {tipo_mov} (ex: 50.75): ")
-        desc_mov = input(f"Digite a descrição da {tipo_mov}: ")
-        
-        
-        app_financeiro.registrar_movimentacao(
-            id_conta=id_da_minha_conta,
-            tipo=tipo_mov,
-            valor=valor_mov,
-            descricao=desc_mov
-        )
+    id_da_minha_conta = minha_conta_logada.id_conta
 
-    elif escolha == '3':
-        # --- Histórico de Receitas ---
-        print("\n--- Histórico de Receitas ---")
-        # 1. Pede a lista ao Facade
-        historico = app_financeiro.get_historico_receitas(id_da_minha_conta)
+    # 3. Loop do Menu Principal
+    while True:
+        print("\n--- MENU PRINCIPAL ---")
+        print(f"Conta: {minha_conta_logada.nome_completo} | Saldo atual: R$ {app_financeiro.get_saldo(id_da_minha_conta)}")
+        print("1. Adicionar Receita")
+        print("2. Adicionar Despesa")
+        print("3. Ver Histórico de Receitas")
+        print("4. Ver Histórico de Despesas")
+        print("5. Sair (Logout)")
+        print("="*30)
         
-        # 2. CALCULA O TOTAL
-        # sum() soma os 'mov.valor' de cada 'mov' na lista 'historico'.
-        # Começa com Decimal('0.0') para funcionar mesmo se a lista estiver vazia.
-        total_receitas = sum((mov.valor for mov in historico), Decimal('0.0'))
+        escolha = input("Digite o número da opção: ")
+
+        if escolha == '1' or escolha == '2':
+            tipo_mov = "receita" if escolha == '1' else "despesa"
+            valor_mov = input(f"Digite o valor da {tipo_mov} (ex: 50.75): ")
+            desc_mov = input(f"Digite a descrição da {tipo_mov}: ")
+            
+            app_financeiro.registrar_movimentacao(
+                id_conta=id_da_minha_conta,
+                tipo=tipo_mov,
+                valor=valor_mov,
+                descricao=desc_mov
+            )
+
+        elif escolha == '3':
+            print("\n--- Histórico de Receitas ---")
+            historico = app_financeiro.get_historico_receitas(id_da_minha_conta)
+            total_receitas = sum((mov.valor for mov in historico), Decimal('0.0'))
+            if not historico:
+                print("Nenhuma receita encontrada.")
+            else:
+                for mov in historico:
+                    data_formatada = mov.data.strftime("%d/%m/%Y às %H:%M")
+                    print(f"  - Data: {data_formatada} | Valor: R$ {mov.valor:>10.2f} | Descrição: {mov.descricao}")
+            print("-" * 30)
+            print(f"TOTAL DE RECEITAS: R$ {total_receitas:>10.2f}")
+
+        elif escolha == '4':
+            print("\n--- Histórico de Despesas ---")
+            historico = app_financeiro.get_historico_despesas(id_da_minha_conta)
+            total_despesas = sum((mov.valor for mov in historico), Decimal('0.0'))
+            if not historico:
+                print("Nenhuma despesa encontrada.")
+            else:
+                for mov in historico:
+                    data_formatada = mov.data.strftime("%d/%m/%Y às %H:%M")
+                    print(f"  - Data: {data_formatada} | Valor: R$ {mov.valor:>10.2f} | Descrição: {mov.descricao}")
+            print("-" * 30)
+            print(f"TOTAL DE DESPESAS: R$ {total_despesas:>10.2f}")
+
+        elif escolha == '5':
+            print(f"Fazendo logout, {minha_conta_logada.nome_completo}. Seus dados estão salvos.")
+            break
         
-        if not historico: # Verifica se a lista está vazia
-            print("Nenhuma receita encontrada.")
         else:
-            # 3. Imprime cada item
-            for mov in historico:
-                # 'strftime' formata a data/hora para um formato legível
-                data_formatada = mov.data.strftime("%d/%m/%Y às %H:%M") 
-                # ':>10.2f' formata o número (10 espaços, alinhado à direita, 2 casas decimais)
-                print(f"  - Data: {data_formatada} | Valor: R$ {mov.valor:>10.2f} | Descrição: {mov.descricao}")
-        
-        # 4. IMPRIME O TOTAL
-        print("-" * 30) # Linha separadora
-        print(f"TOTAL DE RECEITAS: R$ {total_receitas:>10.2f}")
+            print("Opção inválida.")
 
-    elif escolha == '4':
-        # --- Histórico de Despesas ---
-        print("\n--- Histórico de Despesas ---")
-        # 1. Pede a lista ao Facade
-        historico = app_financeiro.get_historico_despesas(id_da_minha_conta)
-        
-        # 2. CALCULA O TOTAL
-        total_despesas = sum((mov.valor for mov in historico), Decimal('0.0'))
-        
-        if not historico:
-            print("Nenhuma despesa encontrada.")
-        else:
-            # 3. Imprime cada item
-            for mov in historico:
-                data_formatada = mov.data.strftime("%d/%m/%Y às %H:%M")
-                print(f"  - Data: {data_formatada} | Valor: R$ {mov.valor:>10.2f} | Descrição: {mov.descricao}")
-
-        # 4. IMPRIME O TOTAL
-        print("-" * 30) # Linha separadora
-        print(f"TOTAL DE DESPESAS: R$ {total_despesas:>10.2f}")
-
-    elif escolha == '5':
-        # --- Sair (Logout) ---
-        print(f"Fazendo logout, {minha_conta_logada.nome_completo}. Seus dados estão salvos.")
-        break # 'break' quebra o loop 'while True' e encerra o programa
-        
-    else:
-        print("Opção inválida. Por favor, digite 1, 2, 3, 4 ou 5.")
