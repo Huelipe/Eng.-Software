@@ -53,17 +53,17 @@ Relevância: artigos e pesquisas indicam que adultos, principalmente mais jovens
 
 ## Padrões de projeto
 
-- Facade
+- Facade (implementado pelo Pedro)
   - Foi escolhido para simplificar a comunicação entre os diferentes módulos do sistema (como autenticação, transações e relatórios).
   - Em vez de a interface chamar várias classes diretamente, o padrão Facade fornece um ponto de acesso único — por exemplo, uma classe FinanceAppManager que centraliza as chamadas do app.
   - Isso deixa o código mais limpo e fácil de manter, reduzindo o acoplamento entre as partes do sistema.
 
-- Decorator
+- Decorator (implementado pela Giovanna)
   - O Decorator é usado para permitir que relatórios e gráficos financeiros recebam novas funcionalidades sem alterar a estrutura principal.
   - Por exemplo, um relatório básico pode ganhar exportação em PDF, adição de gráficos ou filtros personalizados através de decoradores.
   - Esse padrão facilita a expansão futura e evita repetição de código.
 
-- Observer
+- Observer (implementado pelo Felipe)
   - O Observer foi adotado para manter a interface atualizada em tempo real.
   - Quando o usuário adiciona uma nova despesa, o sistema notifica automaticamente os componentes que exibem saldo e gráficos, sem precisar atualizar manualmente cada tela.
   - Isso torna o app mais dinâmico e reativo, melhorando a experiência do usuário.
