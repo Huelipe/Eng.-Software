@@ -15,50 +15,55 @@ Objetivos: criar um aplicativo que pode ser utilizado para ajudar a controlar fi
 
 Relevância: artigos e pesquisas indicam que adultos, principalmente mais jovens, têm dificuldade para gerenciar finanças. Um aplicativo poderia ser muito útil para auxiliar.
 
-Financeiramente: a princípio, o software é financeiramente viável, considerando o baixo custo por trás de sua produção e pesquisas, podendo ter muito retorno.
 
-## Estrutura do Projeto
 
-- Atualizações (pasta com atualizações amplas e decisões feitas pela equipe)
-  - atualizacao1.txt
-  - atualizacao2.txt
-  - atualizacao3.txt
+## Gerência de qualidade
 
-- Levantamento de requisitos (pasta com artigos e pesquisas sobre levantamento de requisitos)
-  - pdf1
-  - pdf2
-  - pdf3
+- Padrões adotados:
+  - ISO/IEC 9126: define critérios de qualidade (funcionalidade, confiabilidade, usabilidade, eficiência e manutenibilidade).
+  - ISO 9001: garante rastreabilidade e melhoria contínua no processo.
+  - CMM: orienta boas práticas de maturidade de processo.
+  - PROCERGS: diretrizes de segurança (autenticação e criptografia).
+    
+- Critérios principais:
+  - Segurança de dados do usuário (criptografia e login).
+  - Desempenho fluido com respostas abaixo de 2 segundos.
+  - Interface intuitiva e responsiva.
+  - Código modular e revisado entre os integrantes.
 
-- V1 (pasta com primeira versão do documento)
-  - Felipe (pasta)
-    - Design (pasta)
-    - Referências para levantamento de requisitos de usuário (pasta)
-    - História de usuário
-    - Diagrama de sequência
-    - Entrevista
-  - Giovanna (pasta)
-    - Design
-    - Referências para levantamento de requisitos de usuário 
-    - História de usuário
-    - Diagrama de sequência
-    - Entrevista
-  - Pedro (pasta)
-    - Design
-    - Referências para levantamento de requisitos de usuário
-    - História de usuário
-    - Diagrama de sequência
-    - Entrevista
-  - Plano de gerenciamento de requisitos (PDF)
-  - Roteiro para entrevista (PDF)
+- Ferramentas utilizadas: GitHub (controle de versão), Trello (gestão de tarefas), Figma (protótipos), Flutter (app), VS Code (IDE).
 
-- V2 (pasta com a segunda versão do documento, revisando e juntando os protótipos)
-  - Protótipo final
-    - Protótipo (PDF com imagens e descrição)
-    - Designs
-      - imagem1
-      - imagem2
-  - Descrição do protótipo (PDF apontando mudanças e justificativas)
-  - Diagrama de sequências (baseado na descrição do protótipo final)
+## Decisão arquiteturial
 
-- Artigo sobre educação financeira em jovens adultos brasileiros
-- README.md (documento com descrição do projeto e organização do GitHub)
+- Padrão de Arquitetura escolhido: MVVM (Model–View–ViewModel)
+
+- O padrão MVVM foi escolhido por ser amplamente utilizado em aplicativos mobile modernos, como os desenvolvidos em Flutter e React Native.
+- Ele separa claramente as responsabilidades do sistema:
+  - Model: representa os dados e regras de negócio (transações, contas, relatórios).
+  - View: cuida da interface e interação com o usuário.
+  - ViewModel: faz a ponte entre o Model e a View, processando dados e atualizando a interface de forma reativa.
+
+- Essa separação melhora a organização, testabilidade e manutenibilidade do código, permitindo adicionar novas funcionalidades (como gráficos, relatórios e notificações) sem alterar partes principais do sistema.
+- Também facilita o uso de padrões de projeto complementares, como Observer e Decorator, integrando de forma limpa as atualizações de dados com a interface.
+
+- Fluxo:
+  - 1: Usuário interage com a View (UI).
+  - 2: A ViewModel processa as ações e comunica-se com o Model.
+  - 3: O Model retorna dados e notifica a ViewModel, que atualiza a interface.
+
+## Padrões de projeto
+
+- Facade
+  - Foi escolhido para simplificar a comunicação entre os diferentes módulos do sistema (como autenticação, transações e relatórios).
+  - Em vez de a interface chamar várias classes diretamente, o padrão Facade fornece um ponto de acesso único — por exemplo, uma classe FinanceAppManager que centraliza as chamadas do app.
+  - Isso deixa o código mais limpo e fácil de manter, reduzindo o acoplamento entre as partes do sistema.
+
+- Decorator
+  - O Decorator é usado para permitir que relatórios e gráficos financeiros recebam novas funcionalidades sem alterar a estrutura principal.
+  - Por exemplo, um relatório básico pode ganhar exportação em PDF, adição de gráficos ou filtros personalizados através de decoradores.
+  - Esse padrão facilita a expansão futura e evita repetição de código.
+
+- Observer
+  - O Observer foi adotado para manter a interface atualizada em tempo real.
+  - Quando o usuário adiciona uma nova despesa, o sistema notifica automaticamente os componentes que exibem saldo e gráficos, sem precisar atualizar manualmente cada tela.
+  - Isso torna o app mais dinâmico e reativo, melhorando a experiência do usuário.
