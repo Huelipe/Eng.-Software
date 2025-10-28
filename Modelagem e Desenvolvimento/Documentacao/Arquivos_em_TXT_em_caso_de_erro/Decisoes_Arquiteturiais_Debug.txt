@@ -1,8 +1,0 @@
-Decisões arquiteturais 
-	FinanceApp
-
-	O projeto foi estruturado com base no padrão MVVM (Model–View–ViewModel), que separa a interface gráfica, a lógica de negócio e o acesso aos dados. Essa decisão foi tomada para garantir coesão e facilidade de manutenção do código.
-	A View (UI Layer) representa as telas do aplicativo, como a parte de Gastos e Relatórios, e é responsável apenas por exibir informações e salvar as interações do usuário. Ela não contém lógica de negócio, evitando dependências diretas com o banco de dados.
-	A ViewModel (Logic Layer) funciona como intermediária entre a interface e os dados. É nela que estão os controladores, responsáveis por validações, cálculos financeiros e atualizações automáticas da interface com auxílio do Observer Pattern. Essa camada também realiza o binding de eventos, garantindo que qualquer mudança nos dados seja exibida imediatamente na interface.
-	Por fim, a Model (Data Layer) centraliza todo o acesso aos dados — sejam eles locais (arquivos JSON) ou externos (como uma APIs). Ela envia e recebe informações da ViewModel, mas permanece longe da interface, garantindo a separação de responsabilidades.
-	Essa arquitetura foi escolhida por equilibrar modularidade, reutilização de código e escalabilidade, permitindo que futuras alterações em uma camada (por exemplo, trocar o banco de dados) não afetem as demais.
