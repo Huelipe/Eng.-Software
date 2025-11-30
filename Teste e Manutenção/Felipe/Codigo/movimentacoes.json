@@ -1,0 +1,16 @@
+[
+    {
+        "descricao": "bah",
+        "valor": 100.0,
+        "tipo": "receita",
+        "categoria": "Lazer",
+        "data": "2025-10-25"
+    },
+    {
+        "descricao": "bawe",
+        "valor": -50.0,
+        "tipo": "despesa",
+        "categoria": "Lazer",
+        "data": "2025-10-25"
+    }
+]

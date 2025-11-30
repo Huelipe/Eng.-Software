@@ -1,0 +1,41 @@
+<LoginScreen@MDScreen>:
+    name: "login"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: "20dp"
+        padding: "40dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDLabel:
+            text: "💰 App de Finanças"
+            halign: "center"
+            font_style: "H4"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDTextField:
+            id: usuario
+            hint_text: "Usuário"
+            size_hint_y: None
+            height: "48dp"
+
+        MDTextField:
+            id: senha
+            hint_text: "Senha"
+            password: True
+            size_hint_y: None
+            height: "48dp"
+
+        MDRaisedButton:
+            text: "Entrar"
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.get_screen("login").login()
+
+        MDFlatButton:
+            text: "Criar Conta"
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.get_screen("login").criar_conta()
