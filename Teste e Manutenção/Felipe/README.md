@@ -118,8 +118,9 @@ Este documento lista os cenários de teste executados para validação do sistem
 > **Detalhe da Falha (Bug):** O terminal exibiu o erro corretamente, mas a **Interface exibiu a mensagem de “Sucesso”** ao invés de uma mensagem de erro, indicando um problema de *feedback* para o usuário.
 
 
-# Identificação de Bugs
+# Identificação e correção de Bugs
 
+## Felipe:
 ### Bug 1: Cenário de teste 4
 
 Descrição:
