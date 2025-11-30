@@ -254,3 +254,64 @@ Nenhuma falha ou exceção foi encontrada durante a execução dos testes.
 
 O módulo financeiro atende aos requisitos funcionais validados pelos testes unitários.
 Após correções realizadas na interface, a aplicação encontra-se consistente e estável para uso.
+
+
+# ✨ Documentação da Funcionalidade de Meta de Economia
+
+Esta seção detalha a implementação e a arquitetura da nova funcionalidade de Metas de Economia no aplicativo.
+
+## Funcionalidade adicionada por Felipe
+
+#### Salvamento de Meta no Arquivo JSON**
+
+Foi implementado um mecanismo para persistir o valor da meta de economia, garantindo que o dado não seja perdido ao fechar o aplicativo.
+
+* O valor da meta é salvo no arquivo `meta.json` sempre que o usuário a define ou altera.
+
+
+#### Carregamento Automático da Meta ao Iniciar o Aplicativo
+
+Ao iniciar o app, a classe FinanceAppLogic agora carrega automaticamente o valor da meta anteriormente salva, permitindo que a meta seja persistida mesmo após o fechamento do aplicativo.
+
+Trecho Responsável:Pythonself.meta_economia = 0.0
+
+self._carregar_meta()
+
+#### Cálculo Completo da Meta e Progresso
+
+A funcionalidade foi expandida para calcular o progresso da meta. 
+
+Essa lógica está encapsulada no método calcular_progresso_meta().
+
+Cálculos Realizados: Total de receitas, Total de despesas, Saldo acumulado e Percentual de progresso em relação à meta definida.
+
+#### Tela de Meta (MetaScreen)
+
+#### Criação da Classe MetaScreen
+
+Uma nova tela dedicada (MetaScreen) foi adicionada. 
+
+Ela exibe a Meta atual, Ganhos, Gastos, Valor economizado e Porcentagem de progresso, sendo atualizada automaticamente via on_pre_enter.
+
+Lógica de Atualização da Tela (on_pre_enter):Pythonclass MetaScreen(MDScreen):
+    def on_pre_enter(self):
+        app = MDApp.get_running_app()
+        dados = app.logic.calcular_progresso_meta()
+
+        texto = (
+            f"Meta atual: R$ {dados['meta']:.2f}\n"
+            f"Total Ganhos: R$ {dados['total_receitas']:.2f}\n"
+            f"Total Gastos: R$ {dados['total_despesas']:.2f}\n"
+            f"Economizado: R$ {dados['saldo']:.2f}\n"
+            f"Progresso: {dados['progresso']:.1f}%"
+        )
+
+        self.ids.texto_progresso.text = texto
+
+        
+#### Registro da Tela no BuildA tela foi registrada no gerenciador de telas e o arquivo KV correspondente foi carregado:Pythonsm.add_widget(Factory.MetaScreen())
+
+Builder.load_file("ui/meta.kv")
+
+#### Atualização Visual da Tela Após Configurar a MetaO método salvar_meta garante o salvamento (meta.json) e o recarregamento imediato dos dados da tela para feedback visual.
+
