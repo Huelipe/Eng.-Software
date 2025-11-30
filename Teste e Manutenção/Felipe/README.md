@@ -117,7 +117,7 @@ Este documento lista os cenários de teste executados para validação do sistem
 
 > **Detalhe da Falha (Bug):** O terminal exibiu o erro corretamente, mas a **Interface exibiu a mensagem de “Sucesso”** ao invés de uma mensagem de erro, indicando um problema de *feedback* para o usuário.
 
-% --------------------------------------------------------------------------------
+
 # Identificação de Bugs
 
 ### Bug 1: Cenário de teste 4
@@ -188,3 +188,64 @@ Erro: Falha ao registrar movimentação! Verifique o saldo ou os dados.
 
 
 ➡️ Cenário 4 passou ✔
+
+
+# Relatório de Testes Unitários — Parte 3
+
+## Teste implementado por Felipe:
+### Ambiente de Testes
+
+Linguagem: Python 3.10+
+
+Framework: unittest
+
+Arquivos testados: Facade.py 
+
+Executado por: python3 teste_financas.py
+
+Sistema Operacional: Windows 11
+
+### 2. Casos de Teste Implementados
+ID	Descrição	Objetivo	Resultado
+TU01	Registrar receita válida	Validar registro positivo	✔ Aprovado
+TU02	Registrar receita com valor negativo	Impedir valores inválidos	✔ Aprovado
+TU03	Registrar despesa com saldo suficiente	Validar desconto	✔ Aprovado
+TU04	Registrar despesa com saldo insuficiente	Impedir operação	✔ Aprovado
+TU05	Verificar histórico de receitas	Validar filtragem correta	✔ Aprovado
+
+
+### Resultado Global da Execução
+
+Comando:
+
+python3 teste_financas.py
+
+Saída:
+
+Ran 5 tests in 0.012s
+
+OK
+
+
+Conclusão: Todos os testes passaram com sucesso.
+
+### Análise dos Resultados
+
+Os testes confirmaram que:
+
+A regra de saldo insuficiente está funcionando.
+
+O sistema impede valores inválidos (receitas negativas).
+
+O histórico está corretamente filtrado por tipo.
+
+A arquitetura em camadas (Facade + Services) está funcionando conforme o esperado.
+
+O comportamento do backend está consistente com os cenários de teste manuais (CT01–CT04).
+
+Nenhuma falha ou exceção foi encontrada durante a execução dos testes.
+
+### Conclusão
+
+O módulo financeiro atende aos requisitos funcionais validados pelos testes unitários.
+Após correções realizadas na interface, a aplicação encontra-se consistente e estável para uso.
