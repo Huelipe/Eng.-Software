@@ -117,7 +117,7 @@ Este documento lista os cenários de teste executados para validação do sistem
 
 > **Detalhe da Falha (Bug):** O terminal exibiu o erro corretamente, mas a **Interface exibiu a mensagem de “Sucesso”** ao invés de uma mensagem de erro, indicando um problema de *feedback* para o usuário.
 
-
+% --------------------------------------------------------------------------------
 ## Identificação de Bugs
 
 Nome: Feedback incorreto ao registrar despesas maiores que o saldo
@@ -173,7 +173,7 @@ if resultado:
 else:
     app.mostrar_alerta("Erro", "Falha ao registrar movimentação! Verifique o saldo ou os dados.")
 
-## 6. Resultado Após Correção
+#### Resultado Após Correção
 
 Rodando o mesmo cenário novamente:
 
