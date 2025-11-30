@@ -190,7 +190,7 @@ Erro: Falha ao registrar movimentação! Verifique o saldo ou os dados.
 ➡️ Cenário 4 passou ✔
 
 
-# Relatório de Testes Unitários — Parte 3
+# Relatório de Testes Unitários
 
 ## Teste implementado por Felipe:
 ### Ambiente de Testes
@@ -208,9 +208,13 @@ Sistema Operacional: Windows 11
 ### 2. Casos de Teste Implementados
 ID	Descrição	Objetivo	Resultado
 TU01	Registrar receita válida	Validar registro positivo	✔ Aprovado
+
 TU02	Registrar receita com valor negativo	Impedir valores inválidos	✔ Aprovado
+
 TU03	Registrar despesa com saldo suficiente	Validar desconto	✔ Aprovado
+
 TU04	Registrar despesa com saldo insuficiente	Impedir operação	✔ Aprovado
+
 TU05	Verificar histórico de receitas	Validar filtragem correta	✔ Aprovado
 
 
