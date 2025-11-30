@@ -2,9 +2,9 @@ CT01 — Registrar Receita com Valor Válido
 
 Responsável: Felipe Ferrer
 Objetivo: Garantir que o sistema registre uma receita válida e atualize o saldo.
-Pré-condições: Usuário autenticado e conta com saldo inicial igual a R$ 0,00.
+Pré-condições: Usuário autenticado e saldo inicial = R$ 0,00.
 
-Entradas:
+Entradas
 
 Tipo: Receita
 
@@ -12,7 +12,7 @@ Valor: 100
 
 Descrição: "Salário"
 
-Procedimento:
+Procedimento
 
 Acessar o menu principal.
 
@@ -20,34 +20,37 @@ Selecionar Adicionar Receita.
 
 Informar valor 100.
 
-Informar descrição.
+Informar descrição "Salário".
 
 Confirmar.
 
-Critérios de Aceitação:
+Critérios de Aceitação
 
 Receita salva.
 
-Saldo atualizado.
+Saldo atualizado corretamente.
 
 Registro aparece no histórico.
 
-Resultado Esperado: Receita registrada corretamente.
-Resultado Obtido: aprovado
+Resultado
 
-CT02 — Registrar Receita com Valor Inválido
+Esperado: Receita registrada corretamente.
+
+Obtido: ✔ Aprovado
+
+❗ CT02 — Registrar Receita com Valor Inválido
 
 Responsável: Felipe Ferrer
-Objetivo: Garantir que valores inválidos não sejam aceitos.
+Objetivo: Garantir que o sistema rejeite valores inválidos.
 Pré-condições: Usuário autenticado.
 
-Entradas:
+Entradas
 
 Tipo: Receita
 
 Valor: -50
 
-Procedimento:
+Procedimento
 
 Selecionar Adicionar Receita.
 
@@ -55,28 +58,31 @@ Digitar valor inválido -50.
 
 Confirmar.
 
-Critérios de Aceitação:
+Critérios de Aceitação
 
 Mensagem de erro exibida.
 
 Nada salvo no sistema.
 
-Resultado Esperado: Registro rejeitado.
-Resultado Obtido: aprovado
+Resultado
 
-CT03 — Registrar Despesa com Saldo Suficiente
+Esperado: Registro rejeitado.
+
+Obtido: ✔ Aprovado
+
+✅ CT03 — Registrar Despesa com Saldo Suficiente
 
 Responsável: Felipe Ferrer
-Objetivo: Validar registro de despesa com saldo suficiente.
+Objetivo: Validar o registro de despesa com saldo suficiente.
 Pré-condições: Saldo ≥ 100.
 
-Entradas:
+Entradas
 
 Tipo: Despesa
 
 Valor: 50
 
-Procedimento:
+Procedimento
 
 Selecionar Adicionar Despesa.
 
@@ -84,28 +90,31 @@ Digitar valor 50.
 
 Confirmar.
 
-Critérios de Aceitação:
+Critérios de Aceitação
 
-Despesa salva.
+Despesa registrada.
 
-Saldo reduzido corretamente.
+Saldo atualizado corretamente.
 
-Resultado Esperado: Despesa registrada.
-Resultado Obtido: aprovado
+Resultado
 
-CT04 — Registrar Despesa com Saldo Insuficiente
+Esperado: Despesa registrada com sucesso.
+
+Obtido: ✔ Aprovado
+
+❌ CT04 — Registrar Despesa com Saldo Insuficiente
 
 Responsável: Felipe Ferrer
-Objetivo: Garantir bloqueio de despesa maior que o saldo.
+Objetivo: Garantir bloqueio ao registrar uma despesa maior que o saldo.
 Pré-condições: Saldo < 200.
 
-Entradas:
+Entradas
 
 Tipo: Despesa
 
 Valor: 200
 
-Procedimento:
+Procedimento
 
 Selecionar Adicionar Despesa.
 
@@ -113,23 +122,21 @@ Informar valor maior que o saldo.
 
 Confirmar.
 
-Critérios de Aceitação:
+Critérios de Aceitação
 
 Sistema exibe erro.
 
 Nada é salvo.
 
-Resultado Esperado: Operação bloqueada.
-Resultado Obtido: sistema não aceitou, exibiu o alerta no terminal mas na interface exibiu como "Sucesso". Teste falhou.
+Resultado
 
+Esperado: Operação bloqueada.
 
-Todas as despesas são exibidas.
+Obtido: ❌ Falhou
 
-Total correto apresentado.
+Terminal exibiu o erro corretamente.
 
-Resultado Esperado: Histórico exibido corretamente.
-Resultado Obtido: preencher após teste
-
+Interface exibiu mensagem de “Sucesso” (bug detectado).
 
 
 % ------------------------------------------------------------------------------
