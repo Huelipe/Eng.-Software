@@ -1,4 +1,4 @@
-## 📋 Cenários de Teste
+# 📋 Cenários de Teste
 
 Este documento lista os cenários de teste executados para validação do sistema de controle financeiro.
 
@@ -118,13 +118,12 @@ Este documento lista os cenários de teste executados para validação do sistem
 > **Detalhe da Falha (Bug):** O terminal exibiu o erro corretamente, mas a **Interface exibiu a mensagem de “Sucesso”** ao invés de uma mensagem de erro, indicando um problema de *feedback* para o usuário.
 
 % --------------------------------------------------------------------------------
-## Identificação de Bugs
-
-Nome: Feedback incorreto ao registrar despesas maiores que o saldo
-Descrição:
-Quando o usuário tentava registrar uma despesa maior do que o saldo disponível, o backend retornava erro, porém a interface exibia a mensagem “Sucesso!”, causando inconsistência entre lógica e interface.
+# Identificação de Bugs
 
 ### Bug 1: Cenário de teste 4
+
+Descrição:
+Quando o usuário tentava registrar uma despesa maior do que o saldo disponível, o backend retornava erro, porém a interface exibia a mensagem “Sucesso!”, causando inconsistência entre lógica e interface.
 
 Arquivo: main.py
 
