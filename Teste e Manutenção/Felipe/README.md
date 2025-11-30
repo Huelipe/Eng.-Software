@@ -118,14 +118,13 @@ Este documento lista os cenários de teste executados para validação do sistem
 > **Detalhe da Falha (Bug):** O terminal exibiu o erro corretamente, mas a **Interface exibiu a mensagem de “Sucesso”** ao invés de uma mensagem de erro, indicando um problema de *feedback* para o usuário.
 
 
-% ------------------------------------------------------------------------------
-## 1. Identificação do Bug
+## Identificação de Bugs
 
 Nome: Feedback incorreto ao registrar despesas maiores que o saldo
 Descrição:
 Quando o usuário tentava registrar uma despesa maior do que o saldo disponível, o backend retornava erro, porém a interface exibia a mensagem “Sucesso!”, causando inconsistência entre lógica e interface.
 
-## 2. Onde o Bug foi Encontrado
+### Bug 1: Cenário de teste 4
 
 Arquivo: main.py
 
@@ -135,26 +134,14 @@ Método: registrar()
 
 Problema: o retorno de sucesso/erro do método registrar_movimentacao() não era verificado.
 
-## 3. Cenário de Teste que Detectou o Problema
-
-Cenário 4 – Registrar despesa maior que o saldo disponível
-
-Item	Valor
-Saldo inicial	R$ 150,00
-Tipo	despesa
-Valor inserido	200.00
-Resultado esperado	Mensagem de ERRO
-Resultado obtido (antes)	Mensagem de SUCESSO
-
 ➡️ Resultado: TESTE FALHOU
 
-## 4. Análise da Causa
+#### Análise da Causa
 
 A função da interface estava assim:
 
 app.logic.registrar_movimentacao(...)
 app.mostrar_alerta("Sucesso", ...)
-
 
 Ou seja:
 
@@ -166,7 +153,7 @@ O alerta de sucesso aparecia sempre.
 
 Causa raiz: Ausência de verificação do retorno booleano do Facade.
 
-## 5. Correção Implementada
+#### Correção Implementada
 
 A solução foi verificar o retorno (True ou False) da operação:
 
