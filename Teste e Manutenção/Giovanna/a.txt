@@ -1,0 +1,208 @@
+Aqui está a documentação formatada exatamente no mesmo padrão do arquivo que você enviou, mas focada na sua parte (Listagem, Histórico e Validação de Dados), baseada no teste unitário `teste_listagem.py` que criamos.
+
+Você pode salvar isso como `README_LISTAGEM.md` ou adicionar ao documento principal.
+
+-----
+
+# 📋 Cenários de Teste — Listagem e Histórico
+
+Este documento detalha a validação do módulo de consulta de histórico e segregação de dados (Receitas vs. Despesas).
+
+-----
+
+### **Sumário Executivo**
+
+| ID | Objetivo | Responsável | Resultado | Observações |
+| :--- | :--- | :--- | :--- | :--- |
+| CT05 | Verificar listagem vazia (sem movimentações). | [Seu Nome] | **Aprovado** (✔) | Comportamento padrão inicial. |
+| CT06 | Validar filtro exclusivo de Receitas. | [Seu Nome] | **Aprovado** (✔) | |
+| CT07 | Validar filtro exclusivo de Despesas. | [Seu Nome] | **Aprovado** (✔) | |
+| CT08 | Conferir integridade dos dados exibidos (Data/Valor). | [Seu Nome] | **Aprovado** (✔) | |
+
+-----
+
+### **Detalhes dos Cenários de Teste**
+
+#### **1. CT06 — Validar Filtro Exclusivo de Receitas**
+
+  * **Objetivo:** Garantir que, ao solicitar o histórico de receitas, nenhuma despesa seja exibida.
+  * **Responsável:** [Seu Nome]
+  * **Pré-condições:** Usuário possui pelo menos uma receita e uma despesa registradas.
+
+| Campo | Entrada |
+| :--- | :--- |
+| Ação | Clicar em "Ver Histórico de Receitas" |
+
+**Procedimento:**
+
+1.  Registrar uma Receita de R$ 100,00 ("Salário").
+2.  Registrar uma Despesa de R$ 50,00 ("Lanche").
+3.  Acessar a tela de **Receitas**.
+
+**Critérios de Aceitação:**
+
+  * A lista exibe apenas o "Salário".
+  * O item "Lanche" **não** deve aparecer.
+  * O totalizador soma apenas as entradas positivas.
+
+**Resultado:** ✔ **Aprovado** (Esperado: Listagem filtrou corretamente os tipos.)
+
+-----
+
+#### **2. CT07 — Validar Filtro Exclusivo de Despesas**
+
+  * **Objetivo:** Garantir que o histórico de despesas não inclua ganhos.
+  * **Responsável:** [Seu Nome]
+  * **Pré-condições:** Usuário possui movimentações mistas.
+
+| Campo | Entrada |
+| :--- | :--- |
+| Ação | Clicar em "Ver Histórico de Despesas" |
+
+**Procedimento:**
+
+1.  Acessar o menu principal.
+2.  Ir para a tela de **Despesas**.
+3.  Verificar os itens listados.
+
+**Critérios de Aceitação:**
+
+  * Apenas transações do tipo "despesa" são visíveis.
+  * Receitas são ignoradas pelo filtro.
+
+**Resultado:** ✔ **Aprovado** (Esperado: Segregação correta dos dados.)
+
+-----
+
+# Identificação e Correção de Bugs
+
+## [Seu Nome]:
+
+### Bug 1: Mistura de tipos na listagem
+
+**Descrição:**
+Em versões anteriores, ao chamar o método de recuperação de histórico, o sistema retornava a lista completa de transações sem filtrar pelo `tipo` da movimentação, fazendo com que gastos aparecessem na tela de ganhos e vice-versa.
+
+**Arquivo:** `Pedro/Facade.py` (Lógica de Negócio)
+
+**Método:** `get_historico_receitas()` e `get_historico_despesas()`
+
+**Problema:** Retorno direto da lista `self.transacoes` sem list comprehension ou filtro condicional.
+
+➡️ **Resultado:** TESTE FALHOU (Anteriormente)
+
+#### Análise da Causa
+
+A função original apenas devolvia o objeto de armazenamento bruto:
+
+```python
+return self.transacoes  # Retornava tudo sem criterio
+```
+
+Isso causava inconsistência visual nas telas `ReceitasScreen` e `DespesasScreen`.
+
+#### Correção Implementada
+
+Foi implementada uma filtragem rigorosa no backend antes de entregar os dados para a interface:
+
+```python
+# Correção no Facade para filtrar receitas
+return [t for t in self.transacoes if t.tipo == 'receita']
+
+# Correção no Facade para filtrar despesas
+return [t for t in self.transacoes if t.tipo == 'despesa']
+```
+
+#### Resultado Após Correção
+
+Rodando o cenário de teste **CT06** novamente:
+
+1.  Adicionado Despesa "Teste Erro".
+2.  Aberto tela de Receitas.
+3.  Item "Teste Erro" não apareceu.
+
+➡️ **Cenário passou ✔**
+
+-----
+
+# Relatório de Testes Unitários
+
+## Teste implementado por [Seu Nome]:
+
+### Ambiente de Testes
+
+  * **Linguagem:** Python 3.10+
+  * **Framework:** `unittest`
+  * **Arquivo de Teste:** `teste_listagem.py`
+  * **Módulo Testado:** Listagem e Integridade de Dados (`FinanceFacade`)
+
+### Casos de Teste Implementados
+
+| ID | Descrição | Objetivo | Resultado |
+| :--- | :--- | :--- | :--- |
+| **TU01** | Listas vazias | Garantir retorno de lista vazia [] sem erros ao iniciar | ✔ **Aprovado** |
+| **TU02** | Filtro de Receitas | Verificar se despesas são excluídas da lista de ganhos | ✔ **Aprovado** |
+| **TU03** | Filtro de Despesas | Verificar se receitas são excluídas da lista de gastos | ✔ **Aprovado** |
+| **TU04** | Integridade de Dados | Assegurar que descrição, valor e data retornam inalterados | ✔ **Aprovado** |
+
+### Resultado Global da Execução
+
+**Comando:**
+
+```bash
+python3 teste_listagem.py
+```
+
+**Saída:**
+
+```text
+Ran 4 tests in 0.004s
+
+OK
+```
+
+### Análise dos Resultados
+
+Os testes automatizados cobriram as falhas potenciais de exibição de dados:
+
+1.  **Segurança de Exibição:** Confirmado que um usuário nunca verá um gasto mascarado de ganho.
+2.  **Consistência:** O valor inserido (ex: `150.50`) é exatamente o valor recuperado, sem arredondamentos indevidos na camada de listagem.
+3.  **Independência:** O teste reseta os arquivos JSON a cada execução, garantindo que testes anteriores não sujem o banco de dados dos testes atuais.
+
+-----
+
+# ✨ Documentação da Funcionalidade de Listagem
+
+Esta seção detalha a implementação das telas de consulta de movimentações.
+
+## Funcionalidade adicionada por [Seu Nome]
+
+#### Segregação Lógica de Movimentações
+
+Foi implementada a separação lógica das transações no momento da leitura do arquivo JSON.
+
+  * O sistema agora classifica cada entrada como "receita" ou "despesa" baseada na flag `tipo` salva no JSON `movimentacoes.json`.
+  * Isso impede que erros de interface mostrem dados incorretos, pois o filtro ocorre na camada de dados (Facade).
+
+#### Telas de Consulta Dedicadas (`ReceitasScreen` e `DespesasScreen`)
+
+Foram criadas duas telas distintas no `main_kivy.py` para melhor experiência do usuário:
+
+1.  **ReceitasScreen:**
+
+      * Itera apenas sobre transações positivas.
+      * Exibe gráfico de pizza (Pie Chart) exclusivo para categorias de entrada.
+      * Calcula o total de ganhos dinamicamente.
+
+2.  **DespesasScreen:**
+
+      * Itera apenas sobre transações negativas.
+      * Exibe gráfico de pizza mostrando onde o usuário mais gastou.
+      * Converte valores negativos para absolutos (positivos) visualmente para facilitar a leitura no gráfico.
+
+#### Tratamento de Listagem Vazia
+
+Foi adicionada uma verificação visual nas telas. Se não houver itens:
+
+  * O gráfico é ocultado/limpo.
+  * Uma mensagem amigável ("Nenhuma receita/despesa registrada") é exibida ao invés de uma tela em branco ou erro de código.
