@@ -52,10 +52,10 @@ nova = {
 
 ##### Correção Implementada
 A solução envolveu vincular cada dado ao ID do usuário e criar filtros na leitura.
-1. Correção nas Movimentações:
+# Correção nas Movimentações:
 Adicionamos o id_conta ao registrar e criamos um filtro para leitura:
 Python
-# No método registrar_movimentacao:
+## No método registrar_movimentacao:
 nova = {
     "id_conta": id_conta,  # <--- Vinculação adicionada
     "descricao": descricao,
@@ -64,7 +64,7 @@ nova = {
 }
 
 
-# Novo método auxiliar criado para filtrar:
+## Novo método auxiliar criado para filtrar:
 def get_transacoes_usuario(self, id_conta_atual):
     return [t for t in self.transacoes_registradas if t.get("id_conta") == id_conta_atual]
 
