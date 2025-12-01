@@ -67,3 +67,62 @@ Relevância: artigos e pesquisas indicam que adultos, principalmente mais jovens
   - O Observer foi adotado para manter a interface atualizada em tempo real.
   - Quando o usuário adiciona uma nova despesa, o sistema notifica automaticamente os componentes que exibem saldo e gráficos, sem precisar atualizar manualmente cada tela.
   - Isso torna o app mais dinâmico e reativo, melhorando a experiência do usuário.
+
+
+# 🧪 Relatório de Testes Automatizados (TDD)
+
+**Responsável:** Pedro
+**Funcionalidade Testada:** Recuperação de Senha (Backend/Lógica)
+**Arquivo de Teste:** `test_recuperacao.py`
+**Framework Utilizado:** `unittest` (Nativo do Python)
+
+### 1\. Objetivo dos Testes
+
+Garantir a integridade e a segurança da lógica de redefinição de senha (`resetar_senha`), assegurando que apenas usuários com a resposta de segurança correta consigam alterar suas credenciais, independente da formatação do texto (maiúsculas/minúsculas).
+
+### 2\. Cenários de Teste Cobertos
+
+Foram implementados 5 casos de teste (Test Cases) cobrindo caminhos felizes e exceções:
+
+  * **✅ CT01 - Caminho Feliz (Sucesso):** Simula um usuário fornecendo a resposta correta.
+      * *Resultado Esperado:* A senha deve ser alterada no banco de dados e o login com a nova senha deve funcionar.
+  * **🛡️ CT02 - Proteção contra Resposta Incorreta:** Simula uma tentativa de invasão com resposta errada.
+      * *Resultado Esperado:* O sistema deve negar a alteração e a senha antiga deve permanecer válida.
+  * **👻 CT03 - Usuário Inexistente:** Tenta recuperar a senha de um login que não existe.
+      * *Resultado Esperado:* O sistema deve retornar `False` sem quebrar (crash).
+  * **🔍 CT04 - Recuperação de Pergunta:** Verifica se o sistema busca a pergunta correta associada ao usuário.
+      * *Resultado Esperado:* A string da pergunta deve corresponder exatamente à salva no cadastro.
+  * **🔠 CT05 - Robustez de Input (Case Insensitive):** Tenta validar a resposta "azul" digitando "AZUL".
+      * *Resultado Esperado:* O sistema deve aceitar, pois a validação deve ignorar diferenças de caixa alta/baixa.
+
+### 3\. Aplicação da Metodologia TDD (Ciclo Red-Green)
+
+Durante o desenvolvimento dos testes, foi aplicado o ciclo de **Test Driven Development**:
+
+1.  **🔴 Fase RED (Falha Inicial):** Ao executar o teste `test_deve_retornar_pergunta_correta` pela primeira vez, o teste falhou acusando `AttributeError`.
+      * *Causa:* O teste chamava o método `buscar_pergunta`, mas a implementação no Facade chamava-se `buscar_pergunta_seguranca`.
+2.  **🟢 Fase GREEN (Correção):** O código de teste foi refatorado para utilizar a nomenclatura correta definida na arquitetura do sistema.
+3.  **✅ Resultado Final:** Após a correção, todos os 5 testes passaram com sucesso em **0.026s**.
+
+### 4\. Evidência de Execução
+
+Abaixo, o log de execução final comprovando a estabilidade do módulo de segurança:
+
+```text
+PS C:\...\Codigo> python test_recuperacao.py
+[Sistema] 'movimentacoes.json' não encontrado.
+[Sistema] Dados salvos em 'contas.json'.
+.
+[Facade] Autenticação de pedro bem-sucedida.
+.
+[Facade] Autenticação de pedro falhou (usuário ou senha inválidos).
+.
+----------------------------------------------------------------------
+Ran 5 tests in 0.026s
+
+OK
+```
+
+-----
+
+**Conclusão:** O módulo de recuperação de senha foi validado logicamente e está seguro contra falhas de digitação (case sensitivity) e tentativas de acesso não autorizado via resposta incorreta.
