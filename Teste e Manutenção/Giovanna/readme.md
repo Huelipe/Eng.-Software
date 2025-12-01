@@ -1,7 +1,3 @@
-Aqui está uma versão mais direta e simples, com uma linguagem mais natural de quem está desenvolvendo o projeto, sem aqueles termos muito corporativos ou robóticos.
-
-Pode salvar como `README_LISTAGEM.md` ou colar no final do documento principal.
-
 -----
 
 # 📋 Testes da Minha Parte (Listagem e Histórico)
@@ -100,3 +96,4 @@ Criei duas telas separadas no Kivy (`ReceitasScreen` e `DespesasScreen`):
   * **Tela Receitas:** Mostra a lista de ganhos e um gráfico verde/azul só com as categorias de entrada.
   * **Tela Despesas:** Mostra onde você gastou e um gráfico separado.
   * **Tratamento de erro:** Se não tiver nada cadastrado, agora aparece uma mensagem "Nenhuma despesa registrada" em vez de ficar uma tela em branco estranha.
+
