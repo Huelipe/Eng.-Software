@@ -1,157 +1,77 @@
-Aqui está a documentação formatada exatamente no mesmo padrão do arquivo que você enviou, mas focada na sua parte (Listagem, Histórico e Validação de Dados), baseada no teste unitário `teste_listagem.py` que criamos.
+Aqui está uma versão mais direta e simples, com uma linguagem mais natural de quem está desenvolvendo o projeto, sem aqueles termos muito corporativos ou robóticos.
 
-Você pode salvar isso como `README_LISTAGEM.md` ou adicionar ao documento principal.
-
------
-
-# 📋 Cenários de Teste — Listagem e Histórico
-
-Este documento detalha a validação do módulo de consulta de histórico e segregação de dados (Receitas vs. Despesas).
+Pode salvar como `README_LISTAGEM.md` ou colar no final do documento principal.
 
 -----
 
-### **Sumário Executivo**
+# 📋 Testes da Minha Parte (Listagem e Histórico)
 
-| ID | Objetivo | Responsável | Resultado | Observações |
-| :--- | :--- | :--- | :--- | :--- |
-| CT05 | Verificar listagem vazia (sem movimentações). | [Seu Nome] | **Aprovado** (✔) | Comportamento padrão inicial. |
-| CT06 | Validar filtro exclusivo de Receitas. | [Seu Nome] | **Aprovado** (✔) | |
-| CT07 | Validar filtro exclusivo de Despesas. | [Seu Nome] | **Aprovado** (✔) | |
-| CT08 | Conferir integridade dos dados exibidos (Data/Valor). | [Seu Nome] | **Aprovado** (✔) | |
+Aqui eu explico como testei as telas de histórico e a separação entre o que é gasto e o que é ganho.
 
 -----
 
-### **Detalhes dos Cenários de Teste**
+### **Resumo dos Testes**
 
-#### **1. CT06 — Validar Filtro Exclusivo de Receitas**
-
-  * **Objetivo:** Garantir que, ao solicitar o histórico de receitas, nenhuma despesa seja exibida.
-  * **Responsável:** [Seu Nome]
-  * **Pré-condições:** Usuário possui pelo menos uma receita e uma despesa registradas.
-
-| Campo | Entrada |
-| :--- | :--- |
-| Ação | Clicar em "Ver Histórico de Receitas" |
-
-**Procedimento:**
-
-1.  Registrar uma Receita de R$ 100,00 ("Salário").
-2.  Registrar uma Despesa de R$ 50,00 ("Lanche").
-3.  Acessar a tela de **Receitas**.
-
-**Critérios de Aceitação:**
-
-  * A lista exibe apenas o "Salário".
-  * O item "Lanche" **não** deve aparecer.
-  * O totalizador soma apenas as entradas positivas.
-
-**Resultado:** ✔ **Aprovado** (Esperado: Listagem filtrou corretamente os tipos.)
+| ID | O que foi testado | Resultado |
+| :--- | :--- | :--- |
+| 1 | Entrar na tela de histórico sem ter dados. | **OK** (✔) |
+| 2 | Ver se receitas aparecem na tela de despesas. | **OK** (✔) |
+| 3 | Ver se despesas aparecem na tela de receitas. | **OK** (✔) |
+| 4 | Conferir se o valor e a data estão certos na lista. | **OK** (✔) |
 
 -----
 
-#### **2. CT07 — Validar Filtro Exclusivo de Despesas**
+### **Como foram feitos os testes**
 
-  * **Objetivo:** Garantir que o histórico de despesas não inclua ganhos.
-  * **Responsável:** [Seu Nome]
-  * **Pré-condições:** Usuário possui movimentações mistas.
+#### **1. Teste de Filtro: Só Receitas**
 
-| Campo | Entrada |
-| :--- | :--- |
-| Ação | Clicar em "Ver Histórico de Despesas" |
+  * **O que eu fiz:** Adicionei um "Salário" (100 reais) e um "Lanche" (50 reais). Depois fui na tela de **Receitas**.
+  * **O que tinha que acontecer:** Só podia aparecer o salário. O lanche não podia aparecer lá.
+  * **Resultado:** ✔ Funcionou. O sistema filtrou certinho.
 
-**Procedimento:**
+#### **2. Teste de Filtro: Só Despesas**
 
-1.  Acessar o menu principal.
-2.  Ir para a tela de **Despesas**.
-3.  Verificar os itens listados.
-
-**Critérios de Aceitação:**
-
-  * Apenas transações do tipo "despesa" são visíveis.
-  * Receitas são ignoradas pelo filtro.
-
-**Resultado:** ✔ **Aprovado** (Esperado: Segregação correta dos dados.)
+  * **O que eu fiz:** Usei os mesmos dados de cima, mas fui na tela de **Despesas**.
+  * **O que tinha que acontecer:** Só aparecer o "Lanche".
+  * **Resultado:** ✔ Funcionou. O ganho foi ignorado nessa tela.
 
 -----
 
-# Identificação e Correção de Bugs
+# Correção de Bugs
 
-## [Seu Nome]:
+## Bug que encontrei: Mistura de tipos na lista
 
-### Bug 1: Mistura de tipos na listagem
+**O problema:**
+Antes, quando eu clicava pra ver o histórico, o código puxava a lista completa de transações sem separar. Então, se eu entrasse na tela de "Ganhos", aparecia tudo o que eu gastei também, o que ficava confuso.
 
-**Descrição:**
-Em versões anteriores, ao chamar o método de recuperação de histórico, o sistema retornava a lista completa de transações sem filtrar pelo `tipo` da movimentação, fazendo com que gastos aparecessem na tela de ganhos e vice-versa.
+**Onde estava o erro:**
+No arquivo `Facade.py`, as funções `get_historico_receitas` e `get_historico_despesas` estavam retornando a lista `self.transacoes` inteira, sem filtrar.
 
-**Arquivo:** `Pedro/Facade.py` (Lógica de Negócio)
+**Como eu arrumei:**
+Mudei o código para filtrar antes de entregar pra tela. Basicamente fiz isso:
 
-**Método:** `get_historico_receitas()` e `get_historico_despesas()`
+  * Para receitas: só retorna se o tipo for `receita`.
+  * Para despesas: só retorna se o tipo for `despesa`.
 
-**Problema:** Retorno direto da lista `self.transacoes` sem list comprehension ou filtro condicional.
-
-➡️ **Resultado:** TESTE FALHOU (Anteriormente)
-
-#### Análise da Causa
-
-A função original apenas devolvia o objeto de armazenamento bruto:
-
-```python
-return self.transacoes  # Retornava tudo sem criterio
-```
-
-Isso causava inconsistência visual nas telas `ReceitasScreen` e `DespesasScreen`.
-
-#### Correção Implementada
-
-Foi implementada uma filtragem rigorosa no backend antes de entregar os dados para a interface:
-
-```python
-# Correção no Facade para filtrar receitas
-return [t for t in self.transacoes if t.tipo == 'receita']
-
-# Correção no Facade para filtrar despesas
-return [t for t in self.transacoes if t.tipo == 'despesa']
-```
-
-#### Resultado Após Correção
-
-Rodando o cenário de teste **CT06** novamente:
-
-1.  Adicionado Despesa "Teste Erro".
-2.  Aberto tela de Receitas.
-3.  Item "Teste Erro" não apareceu.
-
-➡️ **Cenário passou ✔**
+**Teste depois de arrumar:**
+Rodei o teste de novo e agora cada tela só mostra o que deve.
 
 -----
 
-# Relatório de Testes Unitários
+# Testes Automatizados (Unitários)
 
-## Teste implementado por [Seu Nome]:
+Criei um script chamado `teste_listagem.py` para testar isso tudo automaticamente sem precisar ficar abrindo o app toda hora.
 
-### Ambiente de Testes
+### O que o script testa:
 
-  * **Linguagem:** Python 3.10+
-  * **Framework:** `unittest`
-  * **Arquivo de Teste:** `teste_listagem.py`
-  * **Módulo Testado:** Listagem e Integridade de Dados (`FinanceFacade`)
+1.  **Listas vazias:** Se o app não quebra quando não tem nada registrado.
+2.  **Filtros:** Se ele realmente separa receitas de despesas.
+3.  **Dados:** Se o valor que eu salvo é o mesmo que volta na tela (pra não ter erro de arredondamento ou descrição errada).
 
-### Casos de Teste Implementados
+### Resultado do teste
 
-| ID | Descrição | Objetivo | Resultado |
-| :--- | :--- | :--- | :--- |
-| **TU01** | Listas vazias | Garantir retorno de lista vazia [] sem erros ao iniciar | ✔ **Aprovado** |
-| **TU02** | Filtro de Receitas | Verificar se despesas são excluídas da lista de ganhos | ✔ **Aprovado** |
-| **TU03** | Filtro de Despesas | Verificar se receitas são excluídas da lista de gastos | ✔ **Aprovado** |
-| **TU04** | Integridade de Dados | Assegurar que descrição, valor e data retornam inalterados | ✔ **Aprovado** |
-
-### Resultado Global da Execução
-
-**Comando:**
-
-```bash
-python3 teste_listagem.py
-```
+Rodei no terminal com o comando:
+`python3 teste_listagem.py`
 
 **Saída:**
 
@@ -161,48 +81,22 @@ Ran 4 tests in 0.004s
 OK
 ```
 
-### Análise dos Resultados
-
-Os testes automatizados cobriram as falhas potenciais de exibição de dados:
-
-1.  **Segurança de Exibição:** Confirmado que um usuário nunca verá um gasto mascarado de ganho.
-2.  **Consistência:** O valor inserido (ex: `150.50`) é exatamente o valor recuperado, sem arredondamentos indevidos na camada de listagem.
-3.  **Independência:** O teste reseta os arquivos JSON a cada execução, garantindo que testes anteriores não sujem o banco de dados dos testes atuais.
+Tudo passou.
 
 -----
 
-# ✨ Documentação da Funcionalidade de Listagem
+# ✨ O que eu adicionei no App
 
-Esta seção detalha a implementação das telas de consulta de movimentações.
+Explicação rápida do que eu implementei na interface e na lógica.
 
-## Funcionalidade adicionada por [Seu Nome]
+#### 1\. Separação de Listas (Backend)
 
-#### Segregação Lógica de Movimentações
+Arrumei a lógica para o sistema saber diferenciar o que entra e o que sai na hora de ler o arquivo JSON. Isso evita que a interface mostre dados errados.
 
-Foi implementada a separação lógica das transações no momento da leitura do arquivo JSON.
+#### 2\. Telas de Receitas e Despesas (Frontend)
 
-  * O sistema agora classifica cada entrada como "receita" ou "despesa" baseada na flag `tipo` salva no JSON `movimentacoes.json`.
-  * Isso impede que erros de interface mostrem dados incorretos, pois o filtro ocorre na camada de dados (Facade).
+Criei duas telas separadas no Kivy (`ReceitasScreen` e `DespesasScreen`):
 
-#### Telas de Consulta Dedicadas (`ReceitasScreen` e `DespesasScreen`)
-
-Foram criadas duas telas distintas no `main_kivy.py` para melhor experiência do usuário:
-
-1.  **ReceitasScreen:**
-
-      * Itera apenas sobre transações positivas.
-      * Exibe gráfico de pizza (Pie Chart) exclusivo para categorias de entrada.
-      * Calcula o total de ganhos dinamicamente.
-
-2.  **DespesasScreen:**
-
-      * Itera apenas sobre transações negativas.
-      * Exibe gráfico de pizza mostrando onde o usuário mais gastou.
-      * Converte valores negativos para absolutos (positivos) visualmente para facilitar a leitura no gráfico.
-
-#### Tratamento de Listagem Vazia
-
-Foi adicionada uma verificação visual nas telas. Se não houver itens:
-
-  * O gráfico é ocultado/limpo.
-  * Uma mensagem amigável ("Nenhuma receita/despesa registrada") é exibida ao invés de uma tela em branco ou erro de código.
+  * **Tela Receitas:** Mostra a lista de ganhos e um gráfico verde/azul só com as categorias de entrada.
+  * **Tela Despesas:** Mostra onde você gastou e um gráfico separado.
+  * **Tratamento de erro:** Se não tiver nada cadastrado, agora aparece uma mensagem "Nenhuma despesa registrada" em vez de ficar uma tela em branco estranha.
