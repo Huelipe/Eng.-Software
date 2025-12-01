@@ -72,7 +72,83 @@ def get_transacoes_usuario(self, id_conta_atual):
 Com essas alterações, o CT01 agora é aprovado, pois cada conta nova inicia vazia e os dados de um usuário não aparecem para outro.
 
 
+Aqui está a documentação técnica da sua funcionalidade, seguindo o mesmo padrão do exemplo que você enviou.
 
+-----
+
+# ✨ Documentação da Funcionalidade de Recuperação de Senha (Esqueci minha Senha)
+
+Esta seção detalha a implementação e a arquitetura da nova funcionalidade de segurança e recuperação de contas no aplicativo.
+## Funcionalidade adicionada por Pedro
+
+#### 1\. Persistência de Dados de Segurança (`Facade.py`)
+
+Foi alterada a estrutura de dados ("struct") da `Conta` para suportar perguntas de segurança. Agora, além de login e senha, o sistema armazena a pergunta personalizada e o hash da resposta.
+
+  * **Segurança:** A resposta da pergunta de segurança **não é salva em texto puro**. Ela passa pelo mesmo processo de criptografia (`SHA-256`) que a senha, garantindo que ninguém consiga ler a resposta no arquivo `contas.json`.
+
+**Trecho Responsável (`Facade.py`):**
+
+```python
+@dataclass
+class Conta:
+    # ... campos anteriores ...
+    pergunta_seguranca: str = ""
+    resposta_seguranca_hash: str = ""
+```
+
+#### 2\. Fluxo de Cadastro Seguro (`CadastroScreen`)
+
+Foi implementada uma nova tela dedicada ao cadastro (`ui/cadastro.kv`), separando-a do login.
+Ao criar a conta, o sistema agora exige e valida dois novos campos obrigatórios:
+
+1.  **Pergunta de Segurança** (Ex: "Nome do cachorro?")
+2.  **Resposta de Segurança** (Ex: "Rex")
+
+A lógica `criar_nova_conta` no Facade foi atualizada para receber, hashear e persistir esses novos dados.
+
+#### 3\. Tela de Recuperação (`RecuperarScreen`)
+
+Uma nova tela (`ui/recuperar.kv`) foi criada para gerenciar o fluxo de redefinição de senha em duas etapas:
+
+1.  **Busca da Pergunta:** O usuário digita o login e o sistema busca a pergunta associada.
+2.  **Validação e Reset:** O usuário digita a resposta e a nova senha. O sistema compara o hash da resposta digitada com o hash salvo. Se conferir, a senha é alterada.
+
+**Lógica de Reset (`main_kivy.py`):**
+
+```python
+def confirmar_reset(self):
+    # ... capturas de input ...
+    sucesso = app.logic.resetar_senha(user, resp, nova_senha)
+    
+    if sucesso:
+        app.mostrar_alerta("Sucesso", "Senha alterada! Faça login agora.")
+        app.root.current = "login"
+    else:
+        app.mostrar_alerta("Erro", "Resposta de segurança incorreta.")
+```
+
+#### 4\. Integração Backend-Frontend (`FinanceAppLogic`)
+
+A classe `FinanceAppLogic` foi expandida para expor os novos métodos do Facade para a interface gráfica:
+
+  * **`buscar_pergunta(username)`**: Retorna a string da pergunta para exibir na tela.
+  * **`resetar_senha(username, resposta, nova_senha)`**: Realiza a validação criptográfica e a atualização dos dados.
+
+#### 5\. Atualização da Interface (`UI`)
+
+  * **Login (`login.kv`):** Adicionado o botão "Esqueci minha senha" e o botão "Não tem conta? Crie aqui", melhorando a navegação.
+  * **Registro no Build:** As novas telas (`CadastroScreen` e `RecuperarScreen`) foram registradas no `ScreenManager` e seus arquivos KV carregados no método `build()`.
+
+**Trecho de Carregamento (`main_kivy.py`):**
+
+```python
+Builder.load_file("ui/cadastro.kv")
+Builder.load_file("ui/recuperar.kv")
+
+sm.add_widget(CadastroScreen(name="cadastro"))
+sm.add_widget(RecuperarScreen(name="recuperar"))
+```
 
 
 
