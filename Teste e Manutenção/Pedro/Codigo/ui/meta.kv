@@ -1,0 +1,39 @@
+<MetaScreen>:
+    name: "meta"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        Label:
+            id: texto_progresso
+            text: "Carregando..."
+            halign: "center"
+            valign: "middle"
+
+        MDTextField:
+            id: meta_valor
+            hint_text: "Definir nova meta (R$)"
+            input_filter: "float"
+            helper_text_mode: "on_focus"
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5}
+
+        MDRaisedButton:
+            text: "Atualizar Meta"
+            pos_hint: {"center_x": .5}
+            on_release: app.salvar_meta(meta_valor.text)
+
+        MDSeparator:
+            height: "2dp"
+
+        MDLabel:
+            id: texto_progresso
+            text: ""
+            halign: "center"
+
+        MDFlatButton:
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.root.current = "menu"

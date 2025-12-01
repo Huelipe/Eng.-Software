@@ -1,0 +1,46 @@
+<MenuScreen@MDScreen>:
+    name: "menu"
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: "20dp"
+        padding: "20dp"
+
+        MDLabel:
+            text: "📋 Menu Principal"
+            halign: "center"
+            font_style: "H5"
+
+        MDRaisedButton:
+            text: "Adicionar Receita"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "receita"
+
+        MDRaisedButton:
+            text: "Adicionar Despesa"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "despesa"
+
+        MDRaisedButton:
+            text: "Ver Relatório Financeiro"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "relatorio"
+
+        MDRaisedButton:
+            text: "Exibir Receitas"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "receitas"  # 🔹 agora abre a tela ReceitasScreen
+
+        MDRaisedButton:
+            text: "Exibir Despesas"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "despesas"  # 🔹 agora abre a tela DespesasScreen
+
+        MDRaisedButton:
+            text: "Meta de Economia"
+            pos_hint: {"center_x": .5}
+            on_release: app.root.current = "meta"
+
+        MDFlatButton:
+            text: "Logout"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.root.current = "login"
