@@ -62,6 +62,9 @@ class FinanceAppLogic(FinanceFacade, Subject):
         self._salvar_movimentacoes()
 
         self.notificar_observers("nova_movimentacao", {"transacoes": self.transacoes_registradas})
+
+        # Atualiza cache do progresso
+        self.calcular_progresso_meta()
         return True
 
     # ---------------------------------------------------------------
@@ -172,15 +175,12 @@ class LoginScreen(MDScreen):
 class MenuScreen(MDScreen):
     pass
 
-class MetaScreen(MDScreen):
-    pass
-
 
 class MetaScreen(MDScreen):
     def on_pre_enter(self):
         app = MDApp.get_running_app()
 
-        # carrega os dados salvos
+        # recalcula tudo SEM depender de botão
         dados = app.logic.calcular_progresso_meta()
 
         texto = (
@@ -191,12 +191,7 @@ class MetaScreen(MDScreen):
             f"Progresso: {dados['progresso']:.1f}%"
         )
 
-        # atualiza o label do KV
-        try:
-            self.ids.texto_progresso.text = texto
-        except:
-            print("ID texto_progresso não encontrado no meta.kv")
-
+        self.ids.texto_progresso.text = texto
 
 
 class MovimentacaoScreen(MDScreen):
@@ -418,15 +413,13 @@ class FinanceAppMobile(MDApp):
     def salvar_meta(self, valor):
         if self.logic.configurar_meta(valor):
             dados = self.logic.calcular_progresso_meta()
-            self.mostrar_alerta("Meta Atualizada", f"Meta atualizada")
+            self.mostrar_alerta("Meta Atualizada", "Meta salva com sucesso.")
         else:
             self.mostrar_alerta("Erro", "Valor inválido.")
 
-        # Atualiza a tela meta
+        # Atualiza a tela visualmente
         try:
             screen = self.root.get_screen("meta")
-            dados = self.logic.calcular_progresso_meta()
-
             texto = (
                 f"Meta atual: R$ {dados['meta']:.2f}\n"
                 f"Total Ganhos: R$ {dados['total_receitas']:.2f}\n"
@@ -434,11 +427,11 @@ class FinanceAppMobile(MDApp):
                 f"Economizado: R$ {dados['saldo']:.2f}\n"
                 f"Progresso: {dados['progresso']:.1f}%"
             )
-
             screen.ids.texto_progresso.text = texto
 
         except Exception as e:
             print("Falha ao atualizar tela meta:", e)
+
 
 
 if __name__ == "__main__":
