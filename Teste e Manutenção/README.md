@@ -24,7 +24,7 @@ Contém o código da parte 2 com as modificações e implementações que a Giov
 #### README.md 
 Contém toda a documentação escrita pela Giovanna
 
-## Felipe
+## Pedro
 #### Codigo
 Contém o código da parte 2 com as modificações e implementações que o Pedro fez
 #### ...
@@ -213,3 +213,4 @@ else:
 * **Separação de Listas (Backend):** Lógica ajustada no Facade para diferenciar rigorosamente Receita de Despesa.
 * **Telas Dedicadas (Frontend):** Criação das **`ReceitasScreen`** e **`DespesasScreen`** separadas, cada uma com gráficos e listas específicas.
 * **Tratamento de Erro:** Adicionada mensagem "Nenhuma despesa registrada" para evitar telas em branco.
+
