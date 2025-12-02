@@ -19,7 +19,7 @@ Contém toda a documentação escrita pelo Felipe
 #### Codigo
 Contém o código da parte 2 com as modificações e implementações que a Giovanna fez
 #### ...
-#### ...
+#### teste_giovanna_listagem.py
 #### ...
 #### README.md 
 ## 🚀 Novas Funcionalidades (v1.1)
@@ -42,11 +42,8 @@ Para esta funcionalidade, foi utilizado o ciclo **Red-Green-Refactor**:
 3.  **REFACTOR (A Melhoria):**
     - O código foi revisado para garantir legibilidade e tratamento de exceções (try/except) caso haja erro de permissão de escrita.
 
-### ✅ Como rodar os testes
-Para verificar a integridade da exportação de CSV:
 
-```bash
-python -m unittest test_tdd_exportacao.py
+
 
 ## Pedro
 #### Codigo
@@ -237,5 +234,6 @@ else:
 * **Separação de Listas (Backend):** Lógica ajustada no Facade para diferenciar rigorosamente Receita de Despesa.
 * **Telas Dedicadas (Frontend):** Criação das **`ReceitasScreen`** e **`DespesasScreen`** separadas, cada uma com gráficos e listas específicas.
 * **Tratamento de Erro:** Adicionada mensagem "Nenhuma despesa registrada" para evitar telas em branco.
+
 
 
