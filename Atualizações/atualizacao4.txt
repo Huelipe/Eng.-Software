@@ -1,6 +1,0 @@
-Atualização - parte 2 de engenharia de software
-
-Na reunião dessa semana, foi decidido que:
-
-- Será utilizado o padrão de arquitetura MVVM (Model–View–ViewModel)
-- Os três padrões de projeto implementados serão: Facade, Observer e Decorator
