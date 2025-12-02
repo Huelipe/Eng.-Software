@@ -269,7 +269,7 @@ Problema: Os dados eram salvos em listas e variáveis globais sem associação c
 O código anterior tratava o banco de dados como uma lista única para todos os usuários:
 Movimentações: A função salvava apenas os dados da transação, sem identificar o dono:
 Python
-# Código incorreto (Antigo)
+#### Código incorreto (Antigo)
 nova = {
     "descricao": descricao,
     "valor": valor,
@@ -292,7 +292,7 @@ nova = {
 }
 
 
-## Novo método auxiliar criado para filtrar:
+#### Novo método auxiliar criado para filtrar:
 def get_transacoes_usuario(self, id_conta_atual):
     return [t for t in self.transacoes_registradas if t.get("id_conta") == id_conta_atual]
 
@@ -302,7 +302,7 @@ Com essas alterações, o CT01 agora é aprovado, pois cada conta nova inicia va
 
 
 ## Giovanna
-## Bug que encontrei: Mistura de tipos na lista
+### Bug que encontrei: Mistura de tipos na lista
 
 **O problema:**
 Antes, quando eu clicava pra ver o histórico, o código puxava a lista completa de transações sem separar. Então, se eu entrasse na tela de "Ganhos", aparecia tudo o que eu gastei também, o que ficava confuso.
@@ -857,6 +857,7 @@ Para rodar o teste automatizado desta funcionalidade:
 
 ```bash
 python -m unittest test_tdd_exportacao.py
+
 
 
 
