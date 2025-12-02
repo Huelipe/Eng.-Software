@@ -97,3 +97,31 @@ Criei duas telas separadas no Kivy (`ReceitasScreen` e `DespesasScreen`):
   * **Tela Despesas:** Mostra onde você gastou e um gráfico separado.
   * **Tratamento de erro:** Se não tiver nada cadastrado, agora aparece uma mensagem "Nenhuma despesa registrada" em vez de ficar uma tela em branco estranha.
 
+
+  ## 🆕 Novas Funcionalidades (v1.1)
+
+### 📄 Exportação de Extrato (.csv)
+Implementada a funcionalidade de exportar todo o histórico de movimentações para um arquivo `.csv`. O arquivo é gerado formatado especificamente para o padrão brasileiro (separador `;` e decimais com `,`), facilitando a importação direta no Excel ou Google Sheets.
+
+### 🧪 Metodologia: TDD (Test Driven Development)
+Esta funcionalidade foi desenvolvida utilizando rigorosamente o ciclo **Red-Green-Refactor** para garantir robustez e qualidade de código:
+
+1.  🔴 **RED (O Teste):**
+    * Primeiro, criamos o teste `test_tdd_exportacao.py` antes de qualquer lógica.
+    * Definimos os requisitos: o arquivo deve ser criado, deve conter cabeçalhos corretos e respeitar a formatação de moeda brasileira.
+    * O teste falhou inicialmente (erro esperado), confirmando que a funcionalidade não existia.
+
+2.  🟢 **GREEN (A Implementação):**
+    * Implementamos a lógica mínima na classe `FinanceAppLogic` usando a biblioteca nativa `csv` do Python.
+    * O foco foi escrever apenas o código necessário para fazer o teste passar.
+
+3.  🔵 **REFACTOR (A Melhoria):**
+    * Refinamos o código para tratar exceções de leitura/escrita e garantimos que a separação de responsabilidades fosse mantida.
+
+### ✅ Verificando a implementação
+Para rodar o teste automatizado desta funcionalidade:
+
+```bash
+python -m unittest test_tdd_exportacao.py
+
+
