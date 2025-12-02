@@ -27,21 +27,6 @@ Contém o código da parte 2 com as modificações e implementações que a Giov
 ### 📄 Exportação de Extrato (.csv)
 Foi implementada a funcionalidade de exportar todo o histórico financeiro para um arquivo `.csv`. Isso permite que o usuário analise seus gastos externamente em ferramentas como Excel ou Google Sheets.
 
-#### 🛠️ Metodologia Aplicada: TDD (Test Driven Development)
-Para esta funcionalidade, foi utilizado o ciclo **Red-Green-Refactor**:
-
-1.  **RED (O Teste):** - Criamos primeiro o teste automatizado `test_tdd_exportacao.py`.
-    - Definimos os requisitos no teste: o arquivo deve ser criado, deve usar `;` como separador (padrão Excel BR) e os valores devem usar vírgula decimal.
-    - O teste falhou inicialmente (como esperado), pois a função não existia.
-
-2.  **GREEN (A Implementação):**
-    - Implementamos a função `exportar_dados_csv` na classe `FinanceAppLogic`.
-    - Utilizamos a biblioteca nativa `csv` do Python.
-    - A lógica foi escrita apenas o suficiente para fazer o teste passar.
-
-3.  **REFACTOR (A Melhoria):**
-    - O código foi revisado para garantir legibilidade e tratamento de exceções (try/except) caso haja erro de permissão de escrita.
-
 
 
 
@@ -234,6 +219,7 @@ else:
 * **Separação de Listas (Backend):** Lógica ajustada no Facade para diferenciar rigorosamente Receita de Despesa.
 * **Telas Dedicadas (Frontend):** Criação das **`ReceitasScreen`** e **`DespesasScreen`** separadas, cada uma com gráficos e listas específicas.
 * **Tratamento de Erro:** Adicionada mensagem "Nenhuma despesa registrada" para evitar telas em branco.
+
 
 
 
