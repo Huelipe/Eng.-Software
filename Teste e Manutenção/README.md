@@ -22,7 +22,6 @@ Contém o código da parte 2 com as modificações e implementações que a Giov
 #### teste_giovanna_listagem.py
 #### ...
 #### README.md 
-## 🚀 Novas Funcionalidades (v1.1)
 
 ### 📄 Exportação de Extrato (.csv)
 Foi implementada a funcionalidade de exportar todo o histórico financeiro para um arquivo `.csv`. Isso permite que o usuário analise seus gastos externamente em ferramentas como Excel ou Google Sheets.
@@ -219,6 +218,7 @@ else:
 * **Separação de Listas (Backend):** Lógica ajustada no Facade para diferenciar rigorosamente Receita de Despesa.
 * **Telas Dedicadas (Frontend):** Criação das **`ReceitasScreen`** e **`DespesasScreen`** separadas, cada uma com gráficos e listas específicas.
 * **Tratamento de Erro:** Adicionada mensagem "Nenhuma despesa registrada" para evitar telas em branco.
+
 
 
 
