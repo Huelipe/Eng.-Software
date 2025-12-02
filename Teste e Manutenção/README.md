@@ -837,6 +837,8 @@ Nenhum comportamento foi alterado — apenas a estrutura interna.
 Os testes continuaram passando, garantindo que o refatoramento não afetou a lógica da funcionalidade.
 
 
+## TDD de Giovanna
+
 ### Metodologia: TDD (Test Driven Development)
 Esta funcionalidade foi desenvolvida utilizando rigorosamente o ciclo **Red-Green-Refactor** para garantir robustez e qualidade de código:
 
@@ -857,6 +859,7 @@ Para rodar o teste automatizado desta funcionalidade:
 
 ```bash
 python -m unittest test_tdd_exportacao.py
+```
 
 
 
