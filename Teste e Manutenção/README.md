@@ -2,7 +2,7 @@
 
 Esse README.md contém TODA a documentação, enquanto a pasta 'Final' contém TODO o código final, refatorado e integrado.
 
-As pastas 'Felipe', 'Giovanna' e 'Pedro' foram utilizadas para separar o que cada um fez, dentro delas, você vai encontrar o que cada um fez.
+As pastas 'Felipe', 'Giovanna' e 'Pedro' foram utilizadas para separar o que cada um fez, dentro delas, você vai encontrar as alterações e implementações que cada um fez.
 
 Não é precisso acessar essas pastas, tudo já está nesse README.md e na pasta Final
 
@@ -857,6 +857,7 @@ Para rodar o teste automatizado desta funcionalidade:
 
 ```bash
 python -m unittest test_tdd_exportacao.py
+
 
 
 
