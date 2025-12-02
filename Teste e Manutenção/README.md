@@ -2,9 +2,9 @@
 
 As pastas estão organizadas de modo a dividir exatamente o que cada um fez
 
-Ao fim desse README.md tem a documentação reunida, mas como cada um fez um pouco diferente, é recomendável ver o README.md de cada um.
+Esse README.md tem toda a documentação reunida. Mas como cada um fez um pouco diferente, é recomendável ver o README.md de cada um para mais detalhes.
 
-## Codigo
+## Final
 Contém todo o código final, com todas as funcionalidades antigas, correções de bugs, testes, refatoração, revisão e novas funcionalidades
 
 ## Felipe
@@ -22,12 +22,6 @@ Contém o código da parte 2 com as modificações e implementações que a Giov
 #### teste_giovanna_listagem.py
 #### ...
 #### README.md 
-
-### 📄 Exportação de Extrato (.csv)
-Foi implementada a funcionalidade de exportar todo o histórico financeiro para um arquivo `.csv`. Isso permite que o usuário analise seus gastos externamente em ferramentas como Excel ou Google Sheets.
-
-
-
 
 ## Pedro
 #### Codigo
@@ -213,11 +207,14 @@ else:
 * **Tela de Recuperação (`RecuperarScreen`):** Gerencia a busca da pergunta e o **reset da senha** após validação correta do hash da resposta.
 * **Integração UI:** As telas `CadastroScreen` e `RecuperarScreen` foram registradas no *ScreenManager* do Kivy.
 
-## 🎨 Giovanna: Separação Visual do Histórico
+## 🎨 Giovanna: Funcionalidade de exportação de extrato
+Foi implementada a funcionalidade de exportar todo o histórico financeiro para um arquivo `.csv`. 
+Isso permite que o usuário analise seus gastos externamente em ferramentas como Excel ou Google Sheets.
 
 * **Separação de Listas (Backend):** Lógica ajustada no Facade para diferenciar rigorosamente Receita de Despesa.
 * **Telas Dedicadas (Frontend):** Criação das **`ReceitasScreen`** e **`DespesasScreen`** separadas, cada uma com gráficos e listas específicas.
 * **Tratamento de Erro:** Adicionada mensagem "Nenhuma despesa registrada" para evitar telas em branco.
+
 
 
 
