@@ -362,6 +362,8 @@ def test_salvar_meta_atualiza_sem_erro():
         app.salvar_meta("500")
     except AttributeError:
         assert False, "ERRO: salvar_meta não estava acessível pelo KV."
+```
+
 Resultado na Fase RED
 Os testes falharam conforme o esperado, confirmando os bugs:
 
@@ -369,26 +371,28 @@ meta não carregava automaticamente.
 
 salvar_meta não era encontrado pelo binding do KV.
 
-3. Correção Aplicada (GREEN)
+Correção Aplicada (GREEN)
 Foram implementadas as correções necessárias para fazer os testes passarem.
 
-🟢 Correção 1: Remoção da Duplicação da Classe MetaScreen
+Correção 1: Remoção da Duplicação da Classe MetaScreen
 O conflito de classes foi resolvido mantendo apenas uma definição.
 
 Antes (erro): Duas definições de classe no arquivo.
 
 Depois (correto): Apenas uma definição contendo toda a lógica.
 
-Python
+```python
 
 class MetaScreen(MDScreen):
     def on_pre_enter(self):
         # Lógica de carregamento implementada abaixo
         ...
+```
+
 🟢 Correção 2: Carregar os Dados Sempre ao Entrar na Tela
 A lógica de atualização foi centralizada no evento on_pre_enter para garantir que o refresh ocorra toda vez que a tela for exibida.
 
-Python
+```python
 
 class MetaScreen(MDScreen):
     def on_pre_enter(self):
@@ -401,10 +405,12 @@ class MetaScreen(MDScreen):
             f"Economizado: R$ {dados['saldo']:.2f}\n"
             f"Progresso: {dados['progresso']:.1f}%"
         )
-🟢 Correção 3: Disponibilizar salvar_meta Corretamente no App
+```
+
+Correção 3: Disponibilizar salvar_meta Corretamente no App
 O método salvar_meta foi ajustado na classe principal do aplicativo (FinanceAppMobile) para ser acessível pelo KV e incluir a lógica de atualização imediata da tela.
 
-Python
+```python
 
 def salvar_meta(self, valor):
     if self.logic.configurar_meta(valor):
@@ -422,7 +428,9 @@ def salvar_meta(self, valor):
         f"Economizado: R$ {dados['saldo']:.2f}\n"
         f"Progresso: {dados['progresso']:.1f}%"
     )
-4. Teste Aprovado (GREEN)
+```
+
+Teste Aprovado (GREEN)
 Após as correções, os testes foram executados novamente e todos passaram com sucesso, validando a correção:
 
 ✔ A meta agora carrega automaticamente.
@@ -433,7 +441,7 @@ Após as correções, os testes foram executados novamente e todos passaram com 
 
 ✔ O app não apresenta mais exceções relacionadas à tela de metas.
 
-5. Refatoração (REFACTOR)
+Refatoração (REFACTOR)
 Nesta fase, melhorias secundárias foram aplicadas para otimizar o código sem alterar o comportamento funcional:
 
 Remoção de duplicação de tela e ajustes na arquitetura.
