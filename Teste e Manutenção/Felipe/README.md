@@ -315,3 +315,130 @@ Builder.load_file("ui/meta.kv")
 
 #### Atualização Visual da Tela Após Configurar a MetaO método salvar_meta garante o salvamento (meta.json) e o recarregamento imediato dos dados da tela para feedback visual.
 
+
+# 📄 DOCUMENTO TDD — Ajuste da Tela de Metas
+
+## TTD Felipe
+
+Durante os testes funcionais, foi identificado um erro relacionado à funcionalidade de metas que impedia o carregamento correto dos dados e causava uma exceção ao tentar atualizar a meta.
+
+#### **Comportamento Incorreto Observado (Bug)**
+
+* Ao abrir a tela de metas, os valores **não eram carregados automaticamente**.
+* O usuário precisava clicar em "Atualizar Meta" apenas para visualizar a meta atual.
+* Ao tentar atualizar a meta, o aplicativo apresentava o erro: `AttributeError: 'FinanceAppMobile' object has no attribute 'salvar_meta'`.
+
+#### **Causa Identificada**
+
+* Havia **duas classes `MetaScreen`** definidas no arquivo `main_kivy.py`, gerando conflito de referência no carregamento do Kivy.
+* O Kivy vinculou a versão errada da classe, impedindo que o método `app.salvar_meta()` fosse encontrado.
+
+#### **Objetivo do TDD (Definição dos Critérios)**
+Garantir que:
+1.  A meta seja **sempre carregada automaticamente** ao entrar na tela.
+2.  O método `salvar_meta` seja encontrado e executado corretamente pelo *Binding* do KV.
+3.  A funcionalidade de progresso seja **atualizada imediatamente** após qualquer mudança na meta.
+
+**Teste Inicial (RED)**
+
+Criamos testes definindo o comportamento esperado antes da correção, forçando-os a falhar e, assim, confirmando a existência e a natureza do bug.
+
+#### **Testes Desenvolvidos**
+
+```python
+def test_meta_carrega_automaticamente():
+    logic = FinanceAppLogic()
+    logic.meta_economia = 300
+    logic._salvar_meta()
+    # Carrega de novo como se o app tivesse sido reiniciado
+    novo_logic = FinanceAppLogic()
+    assert novo_logic.meta_economia == 300, \
+        "ERRO: A meta não foi carregada automaticamente ao abrir a tela."
+
+def test_salvar_meta_atualiza_sem_erro():
+    app = FinanceAppMobile()
+    app.logic = FinanceAppLogic()
+    try:
+        app.salvar_meta("500")
+    except AttributeError:
+        assert False, "ERRO: salvar_meta não estava acessível pelo KV."
+Resultado na Fase RED
+Os testes falharam conforme o esperado, confirmando os bugs:
+
+meta não carregava automaticamente.
+
+salvar_meta não era encontrado pelo binding do KV.
+
+3. Correção Aplicada (GREEN)
+Foram implementadas as correções necessárias para fazer os testes passarem.
+
+🟢 Correção 1: Remoção da Duplicação da Classe MetaScreen
+O conflito de classes foi resolvido mantendo apenas uma definição.
+
+Antes (erro): Duas definições de classe no arquivo.
+
+Depois (correto): Apenas uma definição contendo toda a lógica.
+
+Python
+
+class MetaScreen(MDScreen):
+    def on_pre_enter(self):
+        # Lógica de carregamento implementada abaixo
+        ...
+🟢 Correção 2: Carregar os Dados Sempre ao Entrar na Tela
+A lógica de atualização foi centralizada no evento on_pre_enter para garantir que o refresh ocorra toda vez que a tela for exibida.
+
+Python
+
+class MetaScreen(MDScreen):
+    def on_pre_enter(self):
+        app = MDApp.get_running_app()
+        dados = app.logic.calcular_progresso_meta()
+        self.ids.texto_progresso.text = (
+            f"Meta atual: R$ {dados['meta']:.2f}\n"
+            f"Total Ganhos: R$ {dados['total_receitas']:.2f}\n"
+            f"Total Gastos: R$ {dados['total_despesas']:.2f}\n"
+            f"Economizado: R$ {dados['saldo']:.2f}\n"
+            f"Progresso: {dados['progresso']:.1f}%"
+        )
+🟢 Correção 3: Disponibilizar salvar_meta Corretamente no App
+O método salvar_meta foi ajustado na classe principal do aplicativo (FinanceAppMobile) para ser acessível pelo KV e incluir a lógica de atualização imediata da tela.
+
+Python
+
+def salvar_meta(self, valor):
+    if self.logic.configurar_meta(valor):
+        dados = self.logic.calcular_progresso_meta()
+        self.mostrar_alerta("Meta Atualizada", "Meta alterada com sucesso.")
+    else:
+        self.mostrar_alerta("Erro", "Valor inválido.")
+        
+    # Atualiza a tela imediatamente
+    screen = self.root.get_screen("meta")
+    screen.ids.texto_progresso.text = (
+        f"Meta atual: R$ {dados['meta']:.2f}\n"
+        f"Total Ganhos: R$ {dados['total_receitas']:.2f}\n"
+        f"Total Gastos: R$ {dados['total_despesas']:.2f}\n"
+        f"Economizado: R$ {dados['saldo']:.2f}\n"
+        f"Progresso: {dados['progresso']:.1f}%"
+    )
+4. Teste Aprovado (GREEN)
+Após as correções, os testes foram executados novamente e todos passaram com sucesso, validando a correção:
+
+✔ A meta agora carrega automaticamente.
+
+✔ O método salvar_meta é encontrado e executado sem exceções.
+
+✔ O progresso é atualizado toda vez que a meta é salva.
+
+✔ O app não apresenta mais exceções relacionadas à tela de metas.
+
+5. Refatoração (REFACTOR)
+Nesta fase, melhorias secundárias foram aplicadas para otimizar o código sem alterar o comportamento funcional:
+
+Remoção de duplicação de tela e ajustes na arquitetura.
+
+Ajuste da exibição dos valores com formatação consistente.
+
+Garantia de valores default no carregamento do JSON.
+
